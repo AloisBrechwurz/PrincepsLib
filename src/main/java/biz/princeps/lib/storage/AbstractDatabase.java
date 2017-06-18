@@ -1,6 +1,7 @@
 package biz.princeps.lib.storage;
 
-import com.mysql.jdbc.log.Slf4JLogger;
+
+import com.mysql.cj.core.log.Slf4JLogger;
 
 import java.sql.ResultSet;
 import java.util.concurrent.ExecutorService;

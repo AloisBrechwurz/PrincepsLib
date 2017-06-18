@@ -31,7 +31,7 @@
                         </goals>
                         <configuration>
                             <outputFile>
-                                ${project.build.directory}/Testserver/plugins/RhinoVaro-1.8.8.jar
+                                ${project.build.directory}/Testserver/plugins/PrincepsLib.jar
                             </outputFile>
                         </configuration>
                     </execution>

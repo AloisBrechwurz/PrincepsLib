@@ -1,11 +1,7 @@
 package biz.princeps.lib.util;
 
-import net.minecraft.server.v1_12_R1.ChatMessageType;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent;
-import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 /**
@@ -67,17 +63,6 @@ public class SpigotUtil {
         float pitch = loc.getPitch();
         String toPrint = world + ":" + x + ":" + y + ":" + z + ":" + yaw + ":" + pitch;
         return toPrint;
-    }
-
-    public static int getPing(Player p) {
-        return ((CraftPlayer) p).getHandle().ping > 0 ? ((CraftPlayer) p).getHandle().ping : -1;
-    }
-
-    public static void sendActionBar(Player player, String message) {
-        CraftPlayer p = (CraftPlayer) player;
-        IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
-        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, ChatMessageType.GAME_INFO);
-        p.getHandle().playerConnection.sendPacket(ppoc);
     }
 
 
