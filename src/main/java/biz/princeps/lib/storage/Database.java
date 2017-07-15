@@ -1,9 +1,6 @@
 package biz.princeps.lib.storage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Logger;
 
 /**
@@ -58,6 +55,8 @@ public abstract class Database {
                         st.setBoolean(i + 1, (boolean) obj);
                     else if (obj instanceof Long)
                         st.setLong(i + 1, (long) obj);
+                    else
+                        st.setNull(i + 1, Types.VARCHAR);
                 }
             }
             st.executeUpdate();
@@ -86,6 +85,8 @@ public abstract class Database {
                         st.setBoolean(i + 1, (boolean) obj);
                     else if (obj instanceof Long)
                         st.setLong(i + 1, (long) obj);
+                    else
+                        st.setNull(i + 1, Types.VARCHAR);
                 }
             }
             st.execute();
@@ -98,7 +99,6 @@ public abstract class Database {
     public void handleResultSet(String query, Callback callback, Object... args) {
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
-
             if (args != null) {
                 for (int i = 0; i < args.length; i++) {
                     Object obj = args[i];
@@ -114,6 +114,8 @@ public abstract class Database {
                         st.setBoolean(i + 1, (boolean) obj);
                     else if (obj instanceof Long)
                         st.setLong(i + 1, (long) obj);
+                    else
+                        st.setNull(i + 1, Types.VARCHAR);
                 }
             }
 
