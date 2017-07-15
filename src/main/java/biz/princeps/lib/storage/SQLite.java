@@ -22,7 +22,6 @@ public abstract class SQLite extends Database {
     }
 
     private void initialize() {
-        getLogger().info("Inside init.");
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
