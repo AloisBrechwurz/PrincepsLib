@@ -1,25 +1,24 @@
 package biz.princeps.lib.storage;
 
-import com.mysql.cj.core.log.Slf4JLogger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * Created by spatium on 15.07.17.
  */
 public abstract class Database {
 
-    protected Slf4JLogger logger;
+    protected Logger logger;
 
-    public Slf4JLogger getLogger() {
+    public Logger getLogger() {
         return logger;
     }
 
-    public Database(DatabaseType type) {
-        logger = new Slf4JLogger(type.name());
+    public Database(Logger logger) {
+        this.logger = logger;
     }
 
     public abstract void close();
@@ -64,7 +63,7 @@ public abstract class Database {
             st.executeUpdate();
 
         } catch (SQLException e) {
-            logger.logWarn("Error while executing update for query: " + query + "\nError:" + e.getMessage());
+            logger.warning("Error while executing update for query: " + query + "\nError:" + e.getMessage());
         }
     }
 
@@ -92,7 +91,7 @@ public abstract class Database {
             st.execute();
 
         } catch (SQLException e) {
-            logger.logWarn("Error while executing query: " + query + "\nError:" + e.getMessage());
+            logger.warning("Error while executing query: " + query + "\nError:" + e.getMessage());
         }
     }
 
@@ -122,7 +121,7 @@ public abstract class Database {
             res = st.executeQuery();
 
         } catch (SQLException e) {
-            logger.logWarn("Error while getting result set for query: " + query + "\nError:" + e.getMessage());
+            logger.warning("Error while getting result set for query: " + query + "\nError:" + e.getMessage());
         } finally {
             return res;
         }

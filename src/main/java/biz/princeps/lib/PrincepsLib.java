@@ -10,11 +10,11 @@ public class PrincepsLib extends JavaPlugin {
     private static PrincepsLib instance;
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         instance = this;
     }
 
-    public static PrincepsLib getInstance(){
+    public static PrincepsLib getInstance() {
         return instance;
     }
 

@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * Created by spatium on 11.06.17.
@@ -14,8 +15,8 @@ public abstract class MySQL extends Database {
 
     protected HikariDataSource ds;
 
-    public MySQL(String hostname, int port, String database, String username, String password) {
-        super(DatabaseType.MySQL);
+    public MySQL(Logger logger, String hostname, int port, String database, String username, String password) {
+        super(logger);
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName(MysqlDataSource.class.getName());
 
@@ -34,7 +35,7 @@ public abstract class MySQL extends Database {
         try {
             return ds.getConnection();
         } catch (SQLException e) {
-            logger.logWarn("Error while trying to pull a new connection: " + e.getMessage());
+            logger.warning("Error while trying to pull a new connection: " + e.getMessage());
             return null;
         }
     }

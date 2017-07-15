@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * Created by spatium on 11.06.17.
@@ -14,8 +15,8 @@ public abstract class SQLite extends Database {
     private String dbpath;
     private Connection sqlConnection;
 
-    public SQLite(String dbpath) {
-        super(DatabaseType.SQLite);
+    public SQLite(Logger logger, String dbpath) {
+        super(logger);
         this.dbpath = dbpath;
         this.initialize();
     }
@@ -24,11 +25,11 @@ public abstract class SQLite extends Database {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            getLogger().logWarn("The JBDC library for your database type was not found. Please read the plugin's support for more information.");
+            getLogger().warning("The JBDC library for your database type was not found. Please read the plugin's support for more information.");
         }
         Connection conn = getConnection();
         if (conn == null) {
-            getLogger().logWarn("Could not establish SQLite Connection");
+            getLogger().warning("Could not establish SQLite Connection");
         }
         this.setupDatabase();
     }
@@ -38,10 +39,10 @@ public abstract class SQLite extends Database {
         File dbfile = new File(dbpath);
         try {
             if (dbfile.createNewFile()) {
-                getLogger().logInfo("Successfully created database file.");
+                getLogger().warning("Successfully created database file.");
             }
         } catch (IOException e) {
-            getLogger().logWarn("Error while creating database file: ", e);
+            getLogger().warning("Error while creating database file: " + e);
         }
         return DriverManager.getConnection("jdbc:sqlite:" + dbfile);
     }
@@ -54,7 +55,7 @@ public abstract class SQLite extends Database {
                 sqlConnection = this.createSQLiteConnection();
             }
         } catch (SQLException e) {
-            getLogger().logWarn("Error while attempting to retrieve connection to database: ", e);
+            getLogger().warning("Error while attempting to retrieve connection to database: " + e);
         }
         return sqlConnection;
     }
@@ -64,7 +65,7 @@ public abstract class SQLite extends Database {
         try {
             this.sqlConnection.close();
         } catch (SQLException e) {
-            getLogger().logWarn("Could not close connection :c", e);
+            getLogger().warning("Could not close connection :c" + e);
         }
     }
 
