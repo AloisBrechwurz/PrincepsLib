@@ -5,20 +5,17 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by spatium on 11.06.17.
  */
-public class MySQL extends AbstractDatabase {
+public abstract class MySQL extends Database {
 
     protected HikariDataSource ds;
 
     public MySQL(String hostname, int port, String database, String username, String password) {
-        super();
+        super(DatabaseType.MySQL);
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName(MysqlDataSource.class.getName());
 
@@ -29,68 +26,21 @@ public class MySQL extends AbstractDatabase {
         config.addDataSourceProperty("password", password);
 
         ds = new HikariDataSource(config);
+        setupDatabase();
     }
 
-    public void setupDatabase() {
-
-    }
-
-    protected Connection getConnection() throws SQLException {
-        return ds.getConnection();
-    }
-
-    public void close() {
-        ds.close();
-    }
-
-    protected void executeUpdate(String query) {
-        pool.submit(() -> {
-            try (Connection con = ds.getConnection();
-                 PreparedStatement st = con.prepareStatement(query)) {
-
-                st.executeUpdate();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        });
-    }
-
-    protected void execute(String query) {
-        pool.submit(() -> {
-            try (Connection con = ds.getConnection();
-                 PreparedStatement st = con.prepareStatement(query)) {
-
-                st.execute();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        });
-    }
-
-    protected ResultSet executeQuery(String query) {
+    @Override
+    protected Connection getConnection() {
         try {
-            return pool.submit(() -> {
-                ResultSet res = null;
-                try (Connection con = ds.getConnection();
-                     PreparedStatement st = con.prepareStatement(query)) {
-
-                    res = st.executeQuery();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                return res;
-
-            }).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            return ds.getConnection();
+        } catch (SQLException e) {
+            logger.logWarn("Error while trying to pull a new connection: " + e.getMessage());
             return null;
         }
     }
 
-
+    @Override
+    public void close() {
+        ds.close();
+    }
 }
