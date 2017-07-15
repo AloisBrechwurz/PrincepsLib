@@ -36,8 +36,8 @@ public abstract class Database {
         execute(query, null);
     }
 
-    public ResultSet getResultSet(String query) {
-        return getResultSet(query, null);
+    public void handleResultSet(String query, Callback callback) {
+        handleResultSet(query, callback, null);
     }
 
     public void executeUpdate(String query, Object... args) {
@@ -95,8 +95,7 @@ public abstract class Database {
         }
     }
 
-    public ResultSet getResultSet(String query, Object... args) {
-        ResultSet res = null;
+    public void handleResultSet(String query, Callback callback, Object... args) {
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
 
@@ -118,12 +117,12 @@ public abstract class Database {
                 }
             }
 
-            res = st.executeQuery();
+            ResultSet res = st.executeQuery();
+            callback.runAfter(res);
+            res.close();
 
         } catch (SQLException e) {
             logger.warning("Error while getting result set for query: " + query + "\nError:" + e.getMessage());
-        } finally {
-            return res;
         }
     }
 

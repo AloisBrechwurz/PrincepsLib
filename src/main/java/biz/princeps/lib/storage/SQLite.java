@@ -22,6 +22,7 @@ public abstract class SQLite extends Database {
     }
 
     private void initialize() {
+        getLogger().info("Inside init.");
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -39,7 +40,7 @@ public abstract class SQLite extends Database {
         File dbfile = new File(dbpath);
         try {
             if (dbfile.createNewFile()) {
-                getLogger().warning("Successfully created database file.");
+                getLogger().info("Successfully created database file.");
             }
         } catch (IOException e) {
             getLogger().warning("Error while creating database file: " + e);
@@ -49,7 +50,6 @@ public abstract class SQLite extends Database {
 
     @Override
     protected Connection getConnection() {
-        // Check if Connection was not previously closed.
         try {
             if (sqlConnection == null || sqlConnection.isClosed()) {
                 sqlConnection = this.createSQLiteConnection();
