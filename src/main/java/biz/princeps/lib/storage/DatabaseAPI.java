@@ -115,20 +115,26 @@ public class DatabaseAPI {
         if (table == null)
             return null;
 
-        String query = "SELECT * FROM " + table.name() + " WHERE ";
-
+        String query = "SELECT * FROM " + table.name();
         StringBuilder queryBuilder = new StringBuilder(query);
-        Iterator<String> it = conditions.keySet().iterator();
-        while (it.hasNext()) {
-            String next = it.next();
-            queryBuilder.append(next)
-                    .append(" = ")
-                    .append(conditions.get(next));
 
-            if (it.hasNext())
-                queryBuilder.append(" AND ");
+        // conditions
+        if (conditions != null) {
+            queryBuilder.append(" WHERE ");
+
+            Iterator<String> it = conditions.keySet().iterator();
+            while (it.hasNext()) {
+                String next = it.next();
+                queryBuilder.append(next)
+                        .append(" = ")
+                        .append(conditions.get(next));
+
+                if (it.hasNext())
+                    queryBuilder.append(" AND ");
+            }
         }
-        System.out.println(queryBuilder.toString());
+
+      //  System.out.println(queryBuilder.toString());
 
         List<Object> objects = new ArrayList<>();
         db.handleResultSet(queryBuilder.toString(), (res) -> {
