@@ -134,8 +134,6 @@ public class DatabaseAPI {
             }
         }
 
-      //  System.out.println(queryBuilder.toString());
-
         List<Object> objects = new ArrayList<>();
         db.handleResultSet(queryBuilder.toString(), (res) -> {
             while (res.next()) {
