@@ -22,7 +22,7 @@ public class PrincepsLib extends JavaPlugin {
         instance = this;
 
         MySQLDB db = new MySQLDB(getLogger(), "localhost", 3306, "minecraft", "morses", "1234");
-        DatabaseAPI api = getDatabaseAPI(db, "biz.princeps.lib");
+        DatabaseAPI api = getDatabaseAPI(db, "biz.princeps.lib.test");
 
         TestTable tab = new TestTable("bllll", 23, 2L, 2F, false);
        // api.saveObject(tab);
