@@ -145,7 +145,6 @@ public class DatabaseAPI {
                         for (int i = 0; i < params.length; i++) {
                             Column column = params[i].getAnnotation(Column.class);
                             String columnName = column.name();
-
                             Object value = getValue(res, objectOf, columnName);
                             paramsValues[i] = value;
                         }
