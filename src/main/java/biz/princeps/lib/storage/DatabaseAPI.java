@@ -164,9 +164,12 @@ public class DatabaseAPI {
                     field.setAccessible(true);
                     Object value = field.get(object);
                     if (value instanceof String || (value instanceof Boolean && db instanceof SQLite))
-                        queryBuilder.append("'" + value + "'");
-                    else
+                        queryBuilder.append("'").append(value).append("'");
+                    else if (value instanceof Integer || value instanceof Double || value instanceof Float || value instanceof Long
+                            || (value instanceof Bool && db instanceof MySQL))
                         queryBuilder.append(value);
+                    else
+                        queryBuilder.append("'").append(value).append("'");
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
