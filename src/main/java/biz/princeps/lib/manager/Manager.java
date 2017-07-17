@@ -10,6 +10,10 @@ public abstract class Manager {
 
     private JavaPlugin plugin = PrincepsLib.getPluginInstance();
 
+    protected JavaPlugin getPlugin(){
+        return plugin;
+    }
+
     public abstract void saveAll();
 
     public abstract void loadAll();

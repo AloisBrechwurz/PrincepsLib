@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 /**
  * Created by spatium on 15.07.17.
  */
-public abstract class Database {
+public abstract class AbstractDatabase{
 
     protected Logger logger;
 
@@ -14,7 +14,7 @@ public abstract class Database {
         return logger;
     }
 
-    public Database(Logger logger) {
+    public AbstractDatabase(Logger logger) {
         this.logger = logger;
     }
 
@@ -22,7 +22,9 @@ public abstract class Database {
 
     protected abstract Connection getConnection();
 
-    protected abstract void setupDatabase();
+    protected void setupDatabase() {
+
+    }
 
 
     public void executeUpdate(String query) {

@@ -1,11 +1,15 @@
 package biz.princeps.lib;
 
-import biz.princeps.lib.storage.DatabaseAPI;
-import biz.princeps.lib.storage.MySQL;
-import biz.princeps.lib.test.MySQLDB;
+import biz.princeps.lib.storage.*;
+import biz.princeps.lib.test.TestRequests;
 import biz.princeps.lib.test.TestTable;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,14 +26,14 @@ public class PrincepsLib extends JavaPlugin {
 
         setPluginInstance(this);
 
-        MySQLDB db = new MySQLDB(getLogger(), "localhost", 3306, "minecraft", "morses", "1234");
-        DatabaseAPI api = getDatabaseAPI(db, "biz.princeps.lib.test");
+        DatabaseAPI api = new DatabaseAPI(DatabaseType.MySQL, new TestRequests(), "biz.princeps.lib.test");
 
-        TestTable tab = new TestTable("bllll", 23, 2L, 2F, false);
-        // api.saveObject(tab);
+        TestTable tab = new TestTable("bllll", 24, 6L, 2.1F, true);
+        api.req(TestRequests.class).saveTab(tab);
 
+        // retrieving
         Map<String, Object> conditions = new HashMap<>();
-        conditions.put("count", 23);
+        conditions.put("NAME_COLUMN", "bllll");
         List<Object> toGet = api.retrieveObjects(TestTable.class, conditions);
         System.out.println("got list size: " + toGet.size());
 
@@ -38,6 +42,10 @@ public class PrincepsLib extends JavaPlugin {
         }
     }
 
+
+    /**
+     * @return your own plugin instance, which you set before
+     */
     public static JavaPlugin getPluginInstance() {
         return instance;
     }
@@ -53,15 +61,42 @@ public class PrincepsLib extends JavaPlugin {
     }
 
     /**
-     * @param db          the database object the api is supposed to work with
-     * @param packageName the packagename your database table classes will be located in
-     * @return A new instance of a DatabaseAPI object
+     * Generates a myqsl-data file in your plugin folder
+     *
+     * @return the specific fileconfig
      */
-    public static DatabaseAPI getDatabaseAPI(MySQL db, String packageName) {
-        DatabaseAPI api = new DatabaseAPI(db);
-        api.scan(packageName);
+    public static FileConfiguration prepareDatabaseFile() {
+        File file = new File(getPluginInstance().getDataFolder(), "MySQL.yml");
 
-        return api;
+        if (!file.exists())
+            try {
+                getPluginInstance().getDataFolder().mkdirs();
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.load(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        config.addDefault("MySQL.Hostname", "localhost");
+        config.addDefault("MySQL.Port", 3306);
+        config.addDefault("MySQL.Database", "minecraft");
+        config.addDefault("MySQL.User", "root");
+        config.addDefault("MySQL.Password", "passy");
+        config.options().copyDefaults(true);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return config;
     }
-
 }

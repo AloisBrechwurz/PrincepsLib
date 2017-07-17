@@ -1,8 +1,11 @@
 package biz.princeps.lib.storage;
 
+import biz.princeps.lib.PrincepsLib;
 import biz.princeps.lib.storage.annotation.Column;
 import biz.princeps.lib.storage.annotation.Table;
 import biz.princeps.lib.storage.annotation.Unique;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;
@@ -12,6 +15,7 @@ import java.lang.reflect.Parameter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static org.reflections.ReflectionUtils.getAllFields;
 import static org.reflections.ReflectionUtils.withAnnotation;
@@ -21,13 +25,53 @@ import static org.reflections.ReflectionUtils.withAnnotation;
  */
 public class DatabaseAPI {
 
-    private MySQL db;
+    private AbstractDatabase db;
+    private AbstractRequest requests;
 
-    public DatabaseAPI(MySQL db) {
-        this.db = db;
+    public DatabaseAPI(DatabaseType type, AbstractRequest requests, String packageName) {
+        this(type, PrincepsLib.prepareDatabaseFile(), requests, packageName);
     }
 
-    public void scan(String packageName) {
+    public DatabaseAPI(DatabaseType type, FileConfiguration mysqlConfig, AbstractRequest requests, String packageName) {
+        Logger log = PrincepsLib.getPluginInstance().getLogger();
+        this.setRequests(requests);
+
+        switch (type) {
+            case SQLite:
+                db = new SQLite(log, PrincepsLib.getPluginInstance().getDataFolder() + "/database.db") {
+                };
+                break;
+            case MySQL:
+                db = new MySQL(log, mysqlConfig.getString("MySQL.Hostname"),
+                        mysqlConfig.getInt("MySQL.Port"),
+                        mysqlConfig.getString("MySQL.Database"),
+                        mysqlConfig.getString("MySQL.User"),
+                        mysqlConfig.getString("MySQL.Password")) {
+                };
+                break;
+        }
+
+        this.scan(packageName);
+    }
+
+
+    public AbstractDatabase getDatabase() {
+        return db;
+    }
+
+    private void setRequests(AbstractRequest requests) {
+        this.requests = requests;
+        requests.api = this;
+        requests.db = this.db;
+    }
+
+    public <T> T req(Class<T> cls) {
+        if (cls.isInstance(requests))
+            return cls.cast(requests);
+        return null;
+    }
+
+    private void scan(String packageName) {
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Table.class);
 
@@ -56,22 +100,38 @@ public class DatabaseAPI {
                     if (iterator.hasNext())
                         queryBuilder.append(", ");
                 }
+
+                if (db instanceof SQLite) {
+                    queryBuilder.append(", PRIMARY KEY(");
+                    // doing like this avoids issues if the users defines more @Unique
+                    Column uniqueColumn = null;
+                    for (Field field : fields) {
+                        Unique unique = field.getAnnotation(Unique.class);
+                        if (unique != null) {
+                            uniqueColumn = field.getAnnotation(Column.class);
+                        }
+                    }
+                    queryBuilder.append(uniqueColumn.name());
+                    queryBuilder.append(")");
+                }
+
                 queryBuilder.append(")");
 
                 db.execute(queryBuilder.toString());
 
                 // Alter table
-
-                for (Field field : fields) {
-                    Unique unique = field.getAnnotation(Unique.class);
-                    if (unique != null) {
-                        Column uniqueColumn = field.getAnnotation(Column.class);
-                        if (uniqueColumn != null) {
-                            String alterQuery = "ALTER TABLE " + anno.name() +
-                                    " ADD UNIQUE (" + uniqueColumn.name() + ")";
+                if (db instanceof MySQL)
+                    for (Field field : fields) {
+                        Unique unique = field.getAnnotation(Unique.class);
+                        if (unique != null) {
+                            Column uniqueColumn = field.getAnnotation(Column.class);
+                            if (uniqueColumn != null) {
+                                String alterQuery = "ALTER TABLE " + anno.name() +
+                                        " ADD UNIQUE (" + uniqueColumn.name() + ")";
+                                db.execute(alterQuery);
+                            }
                         }
                     }
-                }
             }
         }
     }
@@ -79,7 +139,7 @@ public class DatabaseAPI {
     public void saveObject(Object object) {
         Table table = object.getClass().getAnnotation(Table.class);
         if (table != null) {
-            String query = "INSERT INTO " + table.name() + " (";
+            String query = "REPLACE INTO " + table.name() + " (";
             StringBuilder queryBuilder = new StringBuilder(query);
 
             // Spaltenaufführung
@@ -103,7 +163,7 @@ public class DatabaseAPI {
                 try {
                     field.setAccessible(true);
                     Object value = field.get(object);
-                    if (value instanceof String)
+                    if (value instanceof String || (value instanceof Boolean && db instanceof SQLite))
                         queryBuilder.append("'" + value + "'");
                     else
                         queryBuilder.append(value);
@@ -114,9 +174,27 @@ public class DatabaseAPI {
                 if (iteratorValues.hasNext())
                     queryBuilder.append(", ");
             }
-
             queryBuilder.append(")");
 
+            /* ON DUPLICATE KEY try
+            queryBuilder.append(") ON DUPLICATE KEY UPDATE ");
+
+            Iterator<Field> newIt = fields.iterator();
+            while (newIt.hasNext()) {
+                Field field = newIt.next();
+                Column column = field.getAnnotation(Column.class);
+                try {
+                    queryBuilder.append(column.name())
+                            .append(" = ")
+                            .append(field.get(object));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                if (newIt.hasNext())
+                    queryBuilder.append(", ");
+            }
+*/
+            System.out.println(queryBuilder.toString());
             db.execute(queryBuilder.toString());
         }
     }
@@ -138,8 +216,12 @@ public class DatabaseAPI {
             while (it.hasNext()) {
                 String next = it.next();
                 queryBuilder.append(next)
-                        .append(" = ")
-                        .append(conditions.get(next));
+                        .append(" = ");
+                Object nextValue = conditions.get(next);
+                if (nextValue instanceof String)
+                    queryBuilder.append("'").append(nextValue).append("'");
+                else
+                    queryBuilder.append(nextValue);
 
                 if (it.hasNext())
                     queryBuilder.append(" AND ");
