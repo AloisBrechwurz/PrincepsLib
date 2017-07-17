@@ -1,6 +1,9 @@
 package biz.princeps.lib.manager;
 
-import java.util.*;
+import biz.princeps.lib.storage.DatabaseAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spatium on 17.07.17.
@@ -9,7 +12,8 @@ public abstract class ListedManager<T> extends Manager implements IListed<T> {
 
     protected List<T> elements;
 
-    public ListedManager() {
+    public ListedManager(DatabaseAPI api) {
+        super(api);
         elements = new ArrayList<>();
     }
 

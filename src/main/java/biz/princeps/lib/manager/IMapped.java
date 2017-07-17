@@ -1,6 +1,7 @@
 package biz.princeps.lib.manager;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -11,6 +12,8 @@ public interface IMapped<K, V> {
 
     void add(K key, V value);
 
+    void addAll(Map<K, V> map);
+
     void remove(K key);
 
     V get(K key);
@@ -20,4 +23,6 @@ public interface IMapped<K, V> {
     Collection<V> values();
 
     long size();
+
+
 }

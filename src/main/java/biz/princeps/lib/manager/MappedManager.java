@@ -1,5 +1,7 @@
 package biz.princeps.lib.manager;
 
+import biz.princeps.lib.storage.DatabaseAPI;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,8 @@ public abstract class MappedManager<K, V> extends Manager implements IMapped<K, 
 
     protected Map<K, V> elements;
 
-    public MappedManager() {
+    public MappedManager(DatabaseAPI api) {
+        super(api);
         elements = new HashMap<>();
     }
 
