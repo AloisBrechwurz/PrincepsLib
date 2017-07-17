@@ -20,12 +20,17 @@ public abstract class MappedManager<K, V> extends Manager implements IMapped<K, 
     }
 
     @Override
-    public void add(K key, V value) {
+    public synchronized void add(K key, V value) {
         elements.put(key, value);
     }
 
     @Override
-    public void remove(K key) {
+    public synchronized void addAll(Map<K, V> map) {
+        elements.putAll(map);
+    }
+
+    @Override
+    public synchronized void remove(K key) {
         elements.remove(key);
     }
 

@@ -18,12 +18,12 @@ public abstract class ListedManager<T> extends Manager implements IListed<T> {
     }
 
     @Override
-    public void add(T t) {
+    public synchronized void add(T t) {
         elements.add(t);
     }
 
     @Override
-    public void remove(T t) {
+    public synchronized void remove(T t) {
         elements.remove(t);
     }
 

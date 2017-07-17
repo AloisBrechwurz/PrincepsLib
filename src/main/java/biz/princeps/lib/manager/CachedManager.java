@@ -24,12 +24,12 @@ public abstract class CachedManager<K, V> extends Manager implements IMapped<K, 
     }
 
     @Override
-    public void add(K key, V value) {
+    public synchronized void add(K key, V value) {
         cache.put(key, value);
     }
 
     @Override
-    public void remove(K key) {
+    public synchronized void remove(K key) {
         cache.invalidate(key);
     }
 
