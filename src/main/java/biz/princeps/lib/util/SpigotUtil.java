@@ -2,7 +2,6 @@ package biz.princeps.lib.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 /**
  * Created by spatium on 11.06.17.
