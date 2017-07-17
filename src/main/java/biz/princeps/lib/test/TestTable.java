@@ -3,6 +3,7 @@ package biz.princeps.lib.test;
 import biz.princeps.lib.storage.annotation.Column;
 import biz.princeps.lib.storage.annotation.Constructor;
 import biz.princeps.lib.storage.annotation.Table;
+import biz.princeps.lib.storage.annotation.Unique;
 
 /**
  * Created by spatium on 16.07.17.
@@ -13,6 +14,7 @@ public class TestTable {
     @Column(name = "NAME_COLUMN", length = 36)
     private String blub;
 
+    @Unique
     @Column(name = "count")
     private int coundt;
 

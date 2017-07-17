@@ -2,6 +2,7 @@ package biz.princeps.lib.storage;
 
 import biz.princeps.lib.storage.annotation.Column;
 import biz.princeps.lib.storage.annotation.Table;
+import biz.princeps.lib.storage.annotation.Unique;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;
@@ -58,9 +59,20 @@ public class DatabaseAPI {
                 queryBuilder.append(")");
 
                 db.execute(queryBuilder.toString());
+
+                // Alter table
+
+                for (Field field : fields) {
+                    Unique unique = field.getAnnotation(Unique.class);
+                    if (unique != null) {
+                        Column uniqueColumn = field.getAnnotation(Column.class);
+                        if (uniqueColumn != null) {
+                            String alterQuery = "ALTER TABLE " + anno.name() +
+                                    " ADD UNIQUE (" + uniqueColumn.name() + ")";
+                        }
+                    }
+                }
             }
-
-
         }
     }
 
