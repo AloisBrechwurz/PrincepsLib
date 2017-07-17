@@ -7,7 +7,7 @@ import java.util.*;
  */
 public abstract class ListedManager<T> extends Manager implements IListed<T> {
 
-    private List<T> elements;
+    protected List<T> elements;
 
     public ListedManager() {
         elements = new ArrayList<>();

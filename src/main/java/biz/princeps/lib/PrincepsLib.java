@@ -15,17 +15,18 @@ import java.util.Map;
  */
 public class PrincepsLib extends JavaPlugin {
 
-    private static PrincepsLib instance;
+    private static JavaPlugin instance;
 
     @Override
     public void onEnable() {
-        instance = this;
+
+        setPluginInstance(this);
 
         MySQLDB db = new MySQLDB(getLogger(), "localhost", 3306, "minecraft", "morses", "1234");
         DatabaseAPI api = getDatabaseAPI(db, "biz.princeps.lib.test");
 
         TestTable tab = new TestTable("bllll", 23, 2L, 2F, false);
-       // api.saveObject(tab);
+        // api.saveObject(tab);
 
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("count", 23);
@@ -37,8 +38,18 @@ public class PrincepsLib extends JavaPlugin {
         }
     }
 
-    public static PrincepsLib getInstance() {
+    public static JavaPlugin getPluginInstance() {
         return instance;
+    }
+
+
+    /**
+     * You need to call this method in order to assign your own plugin instance to this api
+     *
+     * @param instance
+     */
+    public static void setPluginInstance(JavaPlugin instance) {
+        PrincepsLib.instance = instance;
     }
 
     /**

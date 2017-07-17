@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public abstract class MappedManager<K, V> extends Manager implements IMapped<K, V> {
 
-    private Map<K, V> elements;
+    protected Map<K, V> elements;
 
     public MappedManager() {
         elements = new HashMap<>();

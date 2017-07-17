@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
  */
 public abstract class CachedManager<K, V> extends Manager implements IMapped<K, V> {
 
-    private LoadingCache<K, V> cache;
+    protected LoadingCache<K, V> cache;
 
     public CachedManager(int maxSize, CacheLoader<K, V> loader) {
         cache = CacheBuilder.newBuilder()
