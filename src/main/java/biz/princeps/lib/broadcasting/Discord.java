@@ -47,7 +47,7 @@ public class Discord {
                 discord.getChannelById(channelid).sendMessage(message);
                 cancel();
             }
-        }.runTaskAsynchronously(PrincepsLib.getInstance());
+        }.runTaskAsynchronously(PrincepsLib.getPluginInstance());
     }
 
     public void disconnect(){

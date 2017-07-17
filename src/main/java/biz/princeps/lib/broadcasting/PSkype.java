@@ -39,9 +39,9 @@ public class PSkype {
                 }
                 skype.changePresence(Presence.ONLINE);
                 if (skype.isConnected())
-                    PrincepsLib.getInstance().getLogger().info("Skype-Connection established!");
+                    PrincepsLib.getPluginInstance().getLogger().info("Skype-Connection established!");
             }
-        }.runTaskAsynchronously(PrincepsLib.getInstance());
+        }.runTaskAsynchronously(PrincepsLib.getPluginInstance());
     }
 
     public void sendMessage(String message) {
@@ -58,6 +58,6 @@ public class PSkype {
                     }
                 cancel();
             }
-        }.runTaskAsynchronously(PrincepsLib.getInstance());
+        }.runTaskAsynchronously(PrincepsLib.getPluginInstance());
     }
 }
