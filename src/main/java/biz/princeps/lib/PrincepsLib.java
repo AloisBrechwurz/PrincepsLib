@@ -1,18 +1,18 @@
 package biz.princeps.lib;
 
-import biz.princeps.lib.storage.*;
+import biz.princeps.lib.storage.DatabaseAPI;
+import biz.princeps.lib.storage.DatabaseType;
 import biz.princeps.lib.test.TestRequests;
-import biz.princeps.lib.test.TestTable;
+import chat.ChatAPI;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Created by spatium on 18.06.17.
@@ -27,7 +27,7 @@ public class PrincepsLib extends JavaPlugin {
         setPluginInstance(this);
 
         DatabaseAPI api = new DatabaseAPI(DatabaseType.MySQL, new TestRequests(), "biz.princeps.lib.test");
-
+/*
         TestTable tab = new TestTable("bllll", 24, 6L, 2.1F, true);
         api.req(TestRequests.class).saveTab(tab);
 
@@ -40,6 +40,24 @@ public class PrincepsLib extends JavaPlugin {
         for (Object o : toGet) {
             System.out.println(((TestTable) o).getCount());
         }
+  */
+
+        getCommand("test").setExecutor((commandSender, command, s, args) -> {
+
+            if (commandSender instanceof Player) {
+                ((Player) commandSender).spigot().sendMessage(
+                        ChatAPI.createMultiPagedMessge()
+                                .setHeaderString("&aThis is just a stupid header")
+                                .setElements(Arrays.asList(new String[]{"t1", "t2", "t3", "t4", "t5", "gae", "dA", "fas", "dasd", "daf", "fafs", "faw"}))
+                                .setNextString("&a<<Next>>")
+                                .setPerSite(4)
+                                .setCommand(s, args)
+                                .setPreviousString("&a<<Previous>>          ")
+                                .build().create());
+            }
+
+            return true;
+        });
     }
 
 
