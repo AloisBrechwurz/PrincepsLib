@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * Created by spatium on 11.06.17.
  */
-abstract class MySQL extends AbstractDatabase {
+public abstract class MySQL extends AbstractDatabase {
 
     protected HikariDataSource ds;
 

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * Created by spatium on 11.06.17.
  */
-abstract class SQLite extends AbstractDatabase {
+public abstract class SQLite extends AbstractDatabase {
 
     private String dbpath;
     private Connection sqlConnection;
