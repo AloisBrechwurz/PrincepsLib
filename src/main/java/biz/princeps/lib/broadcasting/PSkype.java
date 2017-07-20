@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by spatium on 18.06.17.
  */
-class PSkype {
+public class PSkype {
 
     private Skype skype;
     private String username;

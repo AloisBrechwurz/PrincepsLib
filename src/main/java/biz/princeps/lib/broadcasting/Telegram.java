@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * Created by spatium on 20.07.17.
  */
-class Telegram {
+public class Telegram {
 
     private String auth, chatid;
 

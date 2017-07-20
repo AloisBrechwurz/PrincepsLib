@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by spatium on 18.06.17.
  */
-class Discord {
+public class Discord {
 
     private String token;
     private String channelid;
