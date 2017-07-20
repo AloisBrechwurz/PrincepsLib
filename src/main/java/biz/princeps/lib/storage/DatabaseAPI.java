@@ -220,7 +220,7 @@ public class DatabaseAPI {
         }
 
         List<Object> objects = new ArrayList<>();
-        db.handleResultSet(queryBuilder.toString(), (res) -> {
+        db.executeQuery(queryBuilder.toString(), (res) -> {
             while (res.next()) {
                 Constructor[] constructors = objectOf.getConstructors();
                 for (Constructor constructor : constructors) {

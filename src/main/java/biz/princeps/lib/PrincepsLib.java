@@ -6,6 +6,9 @@ import biz.princeps.lib.storage.DatabaseType;
 import biz.princeps.lib.test.TestRequests;
 import biz.princeps.lib.test.TestTable;
 import chat.ChatAPI;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -45,17 +49,26 @@ public class PrincepsLib extends JavaPlugin {
         }
   */
 
-        MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api, UUID.class, TestTable.class) {
+        MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api) {
 
         };
 
         getCommand("test").setExecutor((commandSender, command, s, args) -> {
-
+            BaseComponent[] components = {
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText(),
+                    getRandomText(), getRandomText(), getRandomText(), getRandomText(), getRandomText()
+            };
             if (commandSender instanceof Player) {
                 ((Player) commandSender).spigot().sendMessage(
-                        ChatAPI.createMultiPagedMessge()
+                        ChatAPI.createMultiPagedComponnentMessage()
                                 .setHeaderString("&aThis is just a stupid header")
-                                .setElements(Arrays.asList(new String[]{"t1", "t2", "t3", "t4", "t5", "gae", "dA", "fas", "dasd", "daf", "fafs", "faw"}))
+                                .setElements(Arrays.asList(components))
                                 .setNextString("&a<<Next>>")
                                 .setPerSite(4)
                                 .setCommand(s, args)
@@ -65,6 +78,17 @@ public class PrincepsLib extends JavaPlugin {
 
             return true;
         });
+    }
+
+    public TextComponent getRandomText() {
+        char[] text = new char[10];
+        String characters = "EKRJEDaool,3idjapsjdxcmpaejrip";
+        for (int i = 0; i < 9; i++) {
+            text[i] = characters.charAt(new Random().nextInt(characters.length()));
+        }
+        TextComponent cp = new TextComponent(new String(text));
+        cp.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, new String(text)));
+        return cp;
     }
 
 

@@ -5,10 +5,12 @@ package chat;
  */
 public class ChatAPI {
 
-    public static MultiPagedMessage.MultiPagedMessageBuilder createMultiPagedMessge(){
-        return new MultiPagedMessage.MultiPagedMessageBuilder();
+    public static MultiPagedMessage.Builder createMultiPagedMessge() {
+        return new MultiPagedMessage.Builder();
     }
 
 
-
+    public static MultiPagedComponentMessage.Builder createMultiPagedComponnentMessage() {
+        return new MultiPagedComponentMessage.Builder();
+    }
 }
