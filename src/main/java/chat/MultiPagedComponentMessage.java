@@ -53,8 +53,6 @@ public class MultiPagedComponentMessage {
         BaseComponent[] components = new BaseComponent[var + perSite];
         components[0] = new TextComponent(format(header) + "\n");
 
-        System.out.println(components.length);
-
         int count = 1;
         for (int i = siteNumberToDisplay * perSite; i < (siteNumberToDisplay + 1) * perSite; i++) {
             if (i < elements.size()) {
@@ -66,23 +64,19 @@ public class MultiPagedComponentMessage {
         }
 
         pointer = siteNumberToDisplay;
-        // System.out.println(siteNumberToDisplay);
         String cmd = command + " ";
 
         ComponentBuilder builder = new ComponentBuilder("");
 
         if (siteNumberToDisplay > 0) {
             builder.append(ChatColor.translateAlternateColorCodes('&', previous)).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + --pointer));
-            System.out.println("appending prev");
         }
         pointer = siteNumberToDisplay;
 
         if (siteNumberToDisplay < Math.ceil((double) elements.size() / (double) perSite) - 1) {
-            System.out.println("appending next");
             builder.append(ChatColor.translateAlternateColorCodes('&', next)).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + ++pointer));
         }
 
-        System.out.println(builder.create().length);
         components[1 + perSite] = builder.create()[1];
 
         if (var == 3)
