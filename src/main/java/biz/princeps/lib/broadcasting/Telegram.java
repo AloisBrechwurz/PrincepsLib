@@ -24,7 +24,7 @@ public class Telegram {
      *
      * @param msg this is your message you want to send.
      */
-    public void sendMsg(String msg){
+    public void sendMessage(String msg){
         StringBuilder url = new StringBuilder();
         url.append("https://api.telegram.org/bot")
                 .append(auth)

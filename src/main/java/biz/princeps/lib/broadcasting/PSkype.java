@@ -24,7 +24,7 @@ public class PSkype {
         this.groupname = groupname;
     }
 
-    public void login() {
+    public void connect() {
         new BukkitRunnable() {
 
             @Override
