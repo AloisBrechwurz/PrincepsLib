@@ -1,4 +1,4 @@
-package biz.princeps.lib.storage;
+package biz.princeps.lib.storage.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

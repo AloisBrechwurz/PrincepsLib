@@ -1,8 +1,10 @@
 package biz.princeps.lib;
 
+import biz.princeps.lib.manager.MappedManager;
 import biz.princeps.lib.storage.DatabaseAPI;
 import biz.princeps.lib.storage.DatabaseType;
 import biz.princeps.lib.test.TestRequests;
+import biz.princeps.lib.test.TestTable;
 import chat.ChatAPI;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * Created by spatium on 18.06.17.
@@ -41,6 +44,10 @@ public class PrincepsLib extends JavaPlugin {
             System.out.println(((TestTable) o).getCount());
         }
   */
+
+        MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api, UUID.class, TestTable.class) {
+
+        };
 
         getCommand("test").setExecutor((commandSender, command, s, args) -> {
 

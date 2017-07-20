@@ -4,6 +4,8 @@ import biz.princeps.lib.PrincepsLib;
 import biz.princeps.lib.storage.annotation.Column;
 import biz.princeps.lib.storage.annotation.Table;
 import biz.princeps.lib.storage.annotation.Unique;
+import biz.princeps.lib.storage.requests.AbstractRequest;
+import biz.princeps.lib.storage.requests.Conditions;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.reflections.Reflections;
@@ -61,8 +63,8 @@ public class DatabaseAPI {
 
     private void setRequests(AbstractRequest requests) {
         this.requests = requests;
-        requests.api = this;
-        requests.db = this.db;
+        this.requests.setApi(this);
+        this.requests.setDb(db);
     }
 
     public <T> T req(Class<T> cls) {
@@ -202,7 +204,7 @@ public class DatabaseAPI {
         }
     }
 
-    public List<Object> retrieveObjects(Class objectOf, Map<String, Object> conditions) {
+    public List<Object> retrieveObjects(Class objectOf, Conditions conditions) {
         // SELECT * FROM tablename WHERE con1 = con1v AND ...
         Table table = (Table) objectOf.getDeclaredAnnotation(Table.class);
         if (table == null)
@@ -214,21 +216,7 @@ public class DatabaseAPI {
         // conditions
         if (conditions != null) {
             queryBuilder.append(" WHERE ");
-
-            Iterator<String> it = conditions.keySet().iterator();
-            while (it.hasNext()) {
-                String next = it.next();
-                queryBuilder.append(next)
-                        .append(" = ");
-                Object nextValue = conditions.get(next);
-                if (nextValue instanceof String)
-                    queryBuilder.append("'").append(nextValue).append("'");
-                else
-                    queryBuilder.append(nextValue);
-
-                if (it.hasNext())
-                    queryBuilder.append(" AND ");
-            }
+            queryBuilder.append(conditions.toString());
         }
 
         List<Object> objects = new ArrayList<>();

@@ -1,5 +1,7 @@
 package biz.princeps.lib.storage;
 
+import biz.princeps.lib.storage.requests.Callback;
+
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -35,8 +37,8 @@ public abstract class AbstractDatabase{
         execute(query, null);
     }
 
-    public void handleResultSet(String query, Callback callback) {
-        handleResultSet(query, callback, null);
+    public void executeQuery(String query, Callback callback) {
+        executeQuery(query, callback, null);
     }
 
     public void executeUpdate(String query, Object... args) {
@@ -98,7 +100,7 @@ public abstract class AbstractDatabase{
         }
     }
 
-    public void handleResultSet(String query, Callback callback, Object... args) {
+    public void executeQuery(String query, Callback callback, Object... args) {
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
             if (args != null) {
