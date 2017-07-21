@@ -16,8 +16,8 @@ public class ConfirmationGUI extends AbstractGUI {
 
     private ClickAction onAccept, onDecline;
 
-    public ConfirmationGUI(Player player, ClickAction onAccept, ClickAction onDecline, AbstractGUI mainMenu) {
-        super(player, 9, ChatColor.RED + "Confirmation Dialog", mainMenu);
+    public ConfirmationGUI(Player player, String msg, ClickAction onAccept, ClickAction onDecline, AbstractGUI mainMenu) {
+        super(player, 9, msg, mainMenu);
         this.onAccept = onAccept;
         this.onDecline = onDecline;
     }
@@ -34,6 +34,6 @@ public class ConfirmationGUI extends AbstractGUI {
         ItemMeta meta2 = item2.getItemMeta();
         meta2.setDisplayName(ChatColor.GREEN + "Decline!");
         item2.setItemMeta(meta2);
-        this.setIcon(0, new Icon(item).addClickAction(onAccept));
+        this.setIcon(8, new Icon(item).addClickAction(onAccept));
     }
 }
