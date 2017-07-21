@@ -34,6 +34,6 @@ public class ConfirmationGUI extends AbstractGUI {
         ItemMeta meta2 = item2.getItemMeta();
         meta2.setDisplayName(ChatColor.GREEN + "Decline!");
         item2.setItemMeta(meta2);
-        this.setIcon(8, new Icon(item).addClickAction(onAccept));
+        this.setIcon(8, new Icon(item2).addClickAction(onDecline));
     }
 }
