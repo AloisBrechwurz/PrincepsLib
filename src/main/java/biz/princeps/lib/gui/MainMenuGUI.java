@@ -23,18 +23,6 @@ public class MainMenuGUI extends AbstractGUI {
 
 
     /**
-     * This method must be called in order to open the inventory
-     *
-     * @return the opened inventory
-     */
-    @Override
-    public Inventory display() {
-        this.player.openInventory(this.getInventory());
-        return getInventory();
-    }
-
-
-    /**
      * If you want to add some menu items, you can do that here. Make sure to that a appropriate clickaction
      *
      * @param slot The slot, in which the icon should be placed
@@ -49,5 +37,10 @@ public class MainMenuGUI extends AbstractGUI {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public void create() {
+
     }
 }

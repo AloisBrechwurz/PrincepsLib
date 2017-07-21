@@ -76,7 +76,8 @@ public class MultiPagedGUI extends AbstractGUI {
     /**
      * Creates the site which is needed next
      */
-    private void create() {
+    @Override
+    protected void create() {
         for (int i = 0; i < rowsPerSite * 9; i++) {
             if (i + rowsPerSite * siteNumber * 9 < icons.size()) {
                 this.setIcon(i, icons.get(i + rowsPerSite * siteNumber * 9));
@@ -98,13 +99,6 @@ public class MultiPagedGUI extends AbstractGUI {
                             }));
         } else
             this.setIcon(rowsPerSite * 9 + 3, new Icon(new ItemStack(Material.AIR)));
-
-        if (this.mainMenu != null) {
-            this.setIcon(rowsPerSite * 9 + 4,
-                    new Icon(new ItemStack(Material.NETHER_STAR))
-                            .setName(ChatColor.GOLD + mainMenu.getTitle())
-                            .addClickAction((player) -> mainMenu.display()));
-        }
 
 
         if (siteNumber + 1 < Math.ceil((double) icons.size() / (double) (rowsPerSite * 9))) {

@@ -1,7 +1,6 @@
 package biz.princeps.lib.gui.simple;
 
 import biz.princeps.lib.PrincepsLib;
-import biz.princeps.lib.gui.MainMenuGUI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -32,21 +31,17 @@ public abstract class AbstractGUI implements InventoryHolder {
     protected AbstractGUI mainMenu;
 
     protected Player player;
-    private Inventory inv;
+    protected Inventory inventory;
 
     /**
      * Creates a new main menu
      *
      * @param player the player which want to see the menu
-     * @param size   the size of the inventory. must be a multiple of 8
+     * @param size   the size of the inventory. must be a multiple of 9 (starting at 0)
      * @param title  the name of the menu - ChatColor allowed!
      */
     public AbstractGUI(Player player, int size, String title) {
-        this.player = player;
-        this.icons = new HashMap<>();
-        this.size = size;
-        this.title = format(title);
-        this.rawTitle = format(title);
+        this(player, size, title, null);
     }
 
     /**
@@ -58,8 +53,13 @@ public abstract class AbstractGUI implements InventoryHolder {
      * @param mainMenu The superior menu
      */
     public AbstractGUI(Player player, int size, String title, AbstractGUI mainMenu) {
-        this(player, size, title);
+        this.player = player;
+        this.icons = new HashMap<>();
+        this.title = format(title);
+        this.rawTitle = format(title);
+
         this.mainMenu = mainMenu;
+        this.size = size;
     }
 
     /**
@@ -81,8 +81,8 @@ public abstract class AbstractGUI implements InventoryHolder {
      */
     public AbstractGUI setIcon(int position, Icon icon) {
         this.icons.put(position, icon);
-        if (inv != null) {
-            inv.setItem(position, icon.itemStack);
+        if (inventory != null) {
+            inventory.setItem(position, icon.itemStack);
         }
         return this;
     }
@@ -97,6 +97,14 @@ public abstract class AbstractGUI implements InventoryHolder {
         return this.icons.get(position);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getRawTitle() {
+        return rawTitle;
+    }
+
     /**
      * Sets the title of the GUI
      *
@@ -106,19 +114,22 @@ public abstract class AbstractGUI implements InventoryHolder {
         this.title = title;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     @Override
     public Inventory getInventory() {
-        inv = Bukkit.createInventory(this, size, title);
+        inventory = Bukkit.createInventory(this, size, title);
 
         for (Map.Entry<Integer, Icon> entry : this.icons.entrySet()) {
-            inv.setItem(entry.getKey(), entry.getValue().itemStack);
+            inventory.setItem(entry.getKey(), entry.getValue().itemStack);
         }
 
-        return inv;
+        if (this.mainMenu != null) {
+            this.setIcon(size - 5,
+                    new Icon(new ItemStack(Material.NETHER_STAR))
+                            .setName(org.bukkit.ChatColor.GOLD + mainMenu.getTitle())
+                            .addClickAction((player) -> mainMenu.display()));
+        }
+
+        return inventory;
     }
 
     public void refresh() {
@@ -126,7 +137,13 @@ public abstract class AbstractGUI implements InventoryHolder {
         player.openInventory(getInventory());
     }
 
-    public abstract Inventory display();
+    public Inventory display() {
+        create();
+        this.player.openInventory(this.getInventory());
+        return this.getInventory();
+    }
+
+    protected abstract void create();
 
 
     static class InventoryClickListener implements Listener {
