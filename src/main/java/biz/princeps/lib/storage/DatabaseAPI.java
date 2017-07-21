@@ -6,7 +6,6 @@ import biz.princeps.lib.storage.annotation.Table;
 import biz.princeps.lib.storage.annotation.Unique;
 import biz.princeps.lib.storage.requests.AbstractRequest;
 import biz.princeps.lib.storage.requests.Conditions;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.reflections.Reflections;
 
@@ -168,7 +167,7 @@ public class DatabaseAPI {
                     if (value instanceof String || (value instanceof Boolean && db instanceof SQLite))
                         queryBuilder.append("'").append(value).append("'");
                     else if (value instanceof Integer || value instanceof Double || value instanceof Float || value instanceof Long
-                            || (value instanceof Bool && db instanceof MySQL))
+                            || (value instanceof Boolean && db instanceof MySQL))
                         queryBuilder.append(value);
                     else
                         queryBuilder.append("'").append(value).append("'");
