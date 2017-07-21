@@ -1,4 +1,4 @@
-package chat;
+package biz.princeps.lib.chat;
 
 /**
  * Created by spatium on 18.07.17.

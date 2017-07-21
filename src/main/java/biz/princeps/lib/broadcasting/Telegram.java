@@ -19,8 +19,8 @@ public class Telegram {
     }
 
     /**
-     * Send a message via telegram to a defined chat.
-     * Define your chat in the config.yml
+     * Send a message via telegram to a defined biz.princeps.lib.chat.
+     * Define your biz.princeps.lib.chat in the config.yml
      *
      * @param msg this is your message you want to send.
      */

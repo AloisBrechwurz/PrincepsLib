@@ -1,4 +1,4 @@
-package chat;
+package biz.princeps.lib.chat;
 
 import biz.princeps.lib.PrincepsLib;
 import net.md_5.bungee.api.ChatColor;

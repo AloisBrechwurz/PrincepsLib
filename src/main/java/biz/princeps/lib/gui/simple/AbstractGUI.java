@@ -29,7 +29,7 @@ public abstract class AbstractGUI implements InventoryHolder {
     private final Map<Integer, Icon> icons;
     private final int size;
     protected String title, rawTitle;
-    protected MainMenuGUI mainMenu;
+    protected AbstractGUI mainMenu;
 
     protected Player player;
     private Inventory inv;
@@ -57,7 +57,7 @@ public abstract class AbstractGUI implements InventoryHolder {
      * @param title    the name of the menu - ChatColor allowed!
      * @param mainMenu The superior menu
      */
-    public AbstractGUI(Player player, int size, String title, MainMenuGUI mainMenu) {
+    public AbstractGUI(Player player, int size, String title, AbstractGUI mainMenu) {
         this(player, size, title);
         this.mainMenu = mainMenu;
     }
@@ -104,6 +104,10 @@ public abstract class AbstractGUI implements InventoryHolder {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @Override
