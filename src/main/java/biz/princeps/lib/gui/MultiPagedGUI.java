@@ -30,7 +30,7 @@ public class MultiPagedGUI extends AbstractGUI {
      * @param icons       a list of icons which should be displayed on more pages
      * @param main        the superior main menu
      */
-    public MultiPagedGUI(Player player, int rowsPerSite, String title, List<Icon> icons, MainMenuGUI main) {
+    public MultiPagedGUI(Player player, int rowsPerSite, String title, List<Icon> icons, AbstractGUI main) {
         super(player, rowsPerSite * 9 + 9, title, main);
         this.icons = icons;
         this.rowsPerSite = rowsPerSite;
@@ -52,11 +52,21 @@ public class MultiPagedGUI extends AbstractGUI {
      * Adds an new Icon to the and of the list
      *
      * @param icon a icon
-     * @return itsself to add more buttons builder-pattern alike
+     * @return itself to add more buttons builder-pattern alike
      */
     public MultiPagedGUI addIcon(Icon icon) {
         icons.add(icon);
         return this;
+    }
+
+    public void removeIcon(Icon icon) {
+        icons.remove(icon);
+    }
+
+    public List<Icon> filter(String filter) {
+        List<Icon> filtered = new ArrayList<>();
+        icons.stream().filter(icon -> icon.itemStack.getItemMeta().getDisplayName().contains(filter)).forEach(filtered::add);
+        return filtered;
     }
 
     /**
