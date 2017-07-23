@@ -1,5 +1,6 @@
 package biz.princeps.lib;
 
+import biz.princeps.lib.config.Config;
 import biz.princeps.lib.gui.MultiPagedGUI;
 import biz.princeps.lib.gui.simple.Icon;
 import biz.princeps.lib.gui.MainMenuGUI;
@@ -37,7 +38,7 @@ public class PrincepsLib extends JavaPlugin {
 
         setPluginInstance(this);
 
-        DatabaseAPI api = new DatabaseAPI(DatabaseType.MySQL, new TestRequests(), "biz.princeps.lib.test");
+      //  DatabaseAPI api = new DatabaseAPI(DatabaseType.MySQL, new TestRequests(), "biz.princeps.lib.test");
 /*
         TestTable tab = new TestTable("bllll", 24, 6L, 2.1F, true);
         api.req(TestRequests.class).saveTab(tab);
@@ -53,12 +54,14 @@ public class PrincepsLib extends JavaPlugin {
         }
   */
 
-        MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api) {
+        Config config = new Config(getPluginInstance().getDataFolder().getAbsolutePath(), "test.yml");
+        config.set("test", true);
 
-        };
+
+ //       MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api) {};
 
         getCommand("test").setExecutor((commandSender, command, s, args) -> {
-
+/*
             List<Icon> list = new ArrayList<>();
             for (int i = 0; i < 40; i++) {
                 int finalI = i;
@@ -98,8 +101,10 @@ public class PrincepsLib extends JavaPlugin {
                                 .build().create());
             }
 */
+
             return true;
         });
+
     }
 
     public TextComponent getRandomText() {

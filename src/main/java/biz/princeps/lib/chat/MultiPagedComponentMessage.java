@@ -139,7 +139,6 @@ public class MultiPagedComponentMessage {
                     int i = Integer.parseInt(args[0]);
                     pointer = i;
                 } catch (NumberFormatException e) {
-                    PrincepsLib.getPluginInstance().getLogger().warning("Argument cannot be parsed to int: " + args[0]);
                 }
             }
             return this;
