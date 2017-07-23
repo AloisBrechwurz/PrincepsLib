@@ -198,7 +198,6 @@ public class DatabaseAPI {
                     queryBuilder.append(", ");
             }
 */
-            System.out.println(queryBuilder.toString());
             db.execute(queryBuilder.toString());
         }
     }
