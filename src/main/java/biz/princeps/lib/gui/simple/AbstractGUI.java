@@ -26,7 +26,7 @@ public abstract class AbstractGUI implements InventoryHolder {
     }
 
     private final Map<Integer, Icon> icons;
-    private final int size;
+    private int size;
     protected String title, rawTitle;
     protected AbstractGUI mainMenu;
 
@@ -112,6 +112,10 @@ public abstract class AbstractGUI implements InventoryHolder {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     @Override

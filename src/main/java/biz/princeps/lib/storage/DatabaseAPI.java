@@ -179,25 +179,6 @@ public class DatabaseAPI {
                     queryBuilder.append(", ");
             }
             queryBuilder.append(")");
-
-            /* ON DUPLICATE KEY try
-            queryBuilder.append(") ON DUPLICATE KEY UPDATE ");
-
-            Iterator<Field> newIt = fields.iterator();
-            while (newIt.hasNext()) {
-                Field field = newIt.next();
-                Column column = field.getAnnotation(Column.class);
-                try {
-                    queryBuilder.append(column.name())
-                            .append(" = ")
-                            .append(field.get(object));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                if (newIt.hasNext())
-                    queryBuilder.append(", ");
-            }
-*/
             db.execute(queryBuilder.toString());
         }
     }

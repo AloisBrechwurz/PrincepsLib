@@ -34,4 +34,11 @@ public class Icon {
         itemStack.setItemMeta(meta);
         return this;
     }
+
+    public Icon setLore(List<String> lore) {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
+        return this;
+    }
 }
