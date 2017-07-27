@@ -38,7 +38,7 @@ public class PrincepsLib extends JavaPlugin {
 
         setPluginInstance(this);
 
-      //  DatabaseAPI api = new DatabaseAPI(DatabaseType.MySQL, new TestRequests(), "biz.princeps.lib.test");
+        DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
 /*
         TestTable tab = new TestTable("bllll", 24, 6L, 2.1F, true);
         api.req(TestRequests.class).saveTab(tab);

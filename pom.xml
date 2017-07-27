@@ -6,7 +6,7 @@
 
     <groupId>biz.princeps</groupId>
     <artifactId>PrincepsLib</artifactId>
-    <version>1.2.20</version>
+    <version>1.2.24</version>
 
 
     <build>
@@ -80,13 +80,17 @@
             <id>javacord-repo</id>
             <url>http://repo.bastian-oppermann.de</url>
         </repository>
+        <repository>
+            <id>wesjd-repo</id>
+            <url>https://nexus.wesjd.net/repository/thirdparty/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigotapi</artifactId>
-            <version>1.0</version>
+            <version>1.11.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -108,12 +112,14 @@
             <groupId>de.btobastian.javacord</groupId>
             <artifactId>javacord</artifactId>
             <version>2.0.14</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>fr.delthas</groupId>
             <artifactId>javaskype</artifactId>
             <version>1.0.20</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -126,9 +132,16 @@
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
