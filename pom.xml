@@ -6,7 +6,7 @@
 
     <groupId>biz.princeps</groupId>
     <artifactId>PrincepsLib</artifactId>
-    <version>1.2.24</version>
+    <version>1.2.25</version>
 
 
     <build>
@@ -23,7 +23,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -34,6 +34,22 @@
                             <outputFile>
                                 ${project.build.directory}/Testserver/plugins/PrincepsLib.jar
                             </outputFile>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>shaded.com.google</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <artifactSet>
+                                <includes>
+                                    <include>*:reflections</include>
+                                    <include>com.google.guava:guava</include>
+                                    <include>org.javassist:javassist</include>
+                                    <include>com.zaxxer.hikari:HikariCP</include>
+                                    <include>*:javacord</include>
+                                    <include>*:javaskype</include>
+                                </includes>
+                            </artifactSet>
                         </configuration>
                     </execution>
                 </executions>
@@ -133,14 +149,12 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>RELEASE</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>21.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
