@@ -6,6 +6,8 @@ import biz.princeps.lib.storage.annotation.Table;
 import biz.princeps.lib.storage.annotation.Unique;
 import biz.princeps.lib.storage.requests.AbstractRequest;
 import biz.princeps.lib.storage.requests.Conditions;
+import biz.princeps.lib.util.SpigotUtil;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.reflections.Reflections;
 
@@ -15,7 +17,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import static org.reflections.ReflectionUtils.getAllFields;
@@ -98,6 +103,13 @@ public class DatabaseAPI {
                         queryBuilder.append(")");
                     }
 
+                    // location specific
+                    if (field.getType().getSimpleName().equals("Location")) {
+                        queryBuilder.append("(");
+                        queryBuilder.append(100);
+                        queryBuilder.append(")");
+                    }
+
                     if (iterator.hasNext())
                         queryBuilder.append(", ");
                 }
@@ -164,6 +176,10 @@ public class DatabaseAPI {
                 try {
                     field.setAccessible(true);
                     Object value = field.get(object);
+                    // experimental location support
+                    if (value instanceof Location) {
+                        value = SpigotUtil.exactlocationToString((Location) value);
+                    }
                     if (value instanceof String || (value instanceof Boolean && db instanceof SQLite))
                         queryBuilder.append("'").append(value).append("'");
                     else if (value instanceof Integer || value instanceof Double || value instanceof Float || value instanceof Long
@@ -257,6 +273,9 @@ public class DatabaseAPI {
                     case "float":
                         toReturn = res.getFloat(columnName);
                         break;
+                    case "Location":
+                        toReturn = SpigotUtil.exactlocationFromString(res.getString(columnName));
+                        break;
                     default:
                         toReturn = res.getString(columnName);
                 }
@@ -281,6 +300,8 @@ public class DatabaseAPI {
                 return "DOUBLE";
             case "float":
                 return "FLOAT";
+            case "Location":
+                return "VARCHAR";
             default:
                 return "VARCHAR";
         }

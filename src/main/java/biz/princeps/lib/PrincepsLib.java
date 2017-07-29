@@ -1,30 +1,20 @@
 package biz.princeps.lib;
 
 import biz.princeps.lib.config.Config;
-import biz.princeps.lib.gui.MultiPagedGUI;
-import biz.princeps.lib.gui.simple.Icon;
-import biz.princeps.lib.gui.MainMenuGUI;
-import biz.princeps.lib.manager.MappedManager;
+import biz.princeps.lib.crossversion.CrossVersion;
 import biz.princeps.lib.storage.DatabaseAPI;
 import biz.princeps.lib.storage.DatabaseType;
 import biz.princeps.lib.test.TestRequests;
-import biz.princeps.lib.test.TestTable;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Created by spatium on 18.06.17.
@@ -32,6 +22,7 @@ import java.util.UUID;
 public class PrincepsLib extends JavaPlugin {
 
     private static JavaPlugin instance;
+    private static CrossVersion crossVersion;
 
     @Override
     public void onEnable() {
@@ -58,7 +49,7 @@ public class PrincepsLib extends JavaPlugin {
         config.set("test", true);
 
 
- //       MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api) {};
+        //       MappedManager<UUID, TestTable> mappedManager = new MappedManager<UUID, TestTable>(api) {};
 
         getCommand("test").setExecutor((commandSender, command, s, args) -> {
 /*
@@ -133,6 +124,7 @@ public class PrincepsLib extends JavaPlugin {
      * @param instance
      */
     public static void setPluginInstance(JavaPlugin instance) {
+        PrincepsLib.crossVersion = new CrossVersion();
         PrincepsLib.instance = instance;
     }
 
@@ -174,5 +166,9 @@ public class PrincepsLib extends JavaPlugin {
         }
 
         return config;
+    }
+
+    public static CrossVersion crossVersion() {
+        return crossVersion;
     }
 }
