@@ -60,7 +60,8 @@ public class SpigotUtil {
         double z = loc.getZ();
         float yaw = loc.getYaw();
         float pitch = loc.getPitch();
-        String toPrint = world + ":" + x + ":" + y + ":" + z + ":" + yaw + ":" + pitch;
+        String toPrint = world + ":" + MathUtil.round(x, 3) + ":" + MathUtil.round(y, 3) + ":" + MathUtil.round(z, 3) + ":" + yaw + ":" + pitch;
+
         return toPrint;
     }
 

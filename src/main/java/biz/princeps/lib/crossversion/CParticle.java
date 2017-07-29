@@ -7,7 +7,8 @@ public enum CParticle {
 
     VILLAGERHAPPY("HAPPY_VILLAGER", "VILLAGER_HAPPY"),
     DRIPWATER("WATERDRIP", "DRIP_WATER"),
-    DRIPLAVA("LAVADRIP", "DRIP_LAVA");
+    DRIPLAVA("LAVADRIP", "DRIP_LAVA"),
+    WITCHMAGIC("WITCHMAGIC","SPELL_WITCH");
 
     private final String v18;
     private final String v19;
