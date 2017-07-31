@@ -8,6 +8,8 @@ import org.bukkit.Location;
  */
 public class SpigotUtil {
 
+    private String[] split;
+
     @Deprecated
     public static Location locationFromString(String s) {
         if (s == null) return null;
@@ -38,6 +40,7 @@ public class SpigotUtil {
     public static Location exactlocationFromString(String s) {
         if (s == null) return null;
         if (s.isEmpty()) return null;
+        if (s.equals("null")) return null;
         String[] split = s.split(":");
         Location loc;
 
