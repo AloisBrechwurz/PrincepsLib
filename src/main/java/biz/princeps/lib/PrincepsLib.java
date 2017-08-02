@@ -46,6 +46,8 @@ public class PrincepsLib extends JavaPlugin {
   */
 
         Config config = new Config(getPluginInstance().getDataFolder().getAbsolutePath(), "test.yml");
+
+        config.updateConfig();
         config.set("test", true);
 
 

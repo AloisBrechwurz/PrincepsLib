@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -51,6 +52,44 @@ public class Config {
 
     public void set(String path, Object value) {
         config.set(path, value);
+    }
+
+    public void updateConfig() {
+        try {
+            // New Config
+            InputStream streamNew = getClass().getClassLoader().getResourceAsStream(file.getName());
+            BufferedReader newCfgReader = new BufferedReader(new InputStreamReader(streamNew));
+
+            //Old config
+            File oldFile = file;
+            //   BufferedReader oldCfgReader = new BufferedReader(new FileReader(oldFile));
+
+            List<String> lines = Files.readAllLines(oldFile.toPath());
+            List<String> newLines = new ArrayList<>();
+
+            // check
+            newCfgReader.lines().forEach(s -> {
+
+                int index = -1;
+                for (String line : lines) {
+                    if (line.equals(s)) {
+                        index = lines.indexOf(line);
+                    } else if (line.split(":")[0].equals(s.split(":")[0])) {
+                        //System.out.println("Found " + s.split("=")[0]);
+                        index = lines.indexOf(line);
+                    }
+                }
+                if (index <= 0) {
+                    newLines.add(s);
+                } else {
+                    newLines.add(lines.get(index));
+                }
+
+            });
+            Files.write(oldFile.toPath(), newLines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
