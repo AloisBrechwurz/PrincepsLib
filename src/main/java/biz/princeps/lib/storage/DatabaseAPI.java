@@ -285,7 +285,7 @@ public class DatabaseAPI {
     }
 
 
-    private String convertToSQLType(String simpleName) {
+    public String convertToSQLType(String simpleName) {
         //     System.out.println(simpleName);
         switch (simpleName) {
             case "String":

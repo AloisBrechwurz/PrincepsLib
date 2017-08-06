@@ -66,7 +66,7 @@ public class CommandDelayManager implements Listener {
 
     public boolean isDelayedCommand(String s) {
         for (String s1 : commandDelays.keySet()) {
-            if (s1.startsWith(s))
+            if (s.equals(s1))
                 return true;
         }
         return false;
