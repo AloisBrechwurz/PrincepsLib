@@ -26,9 +26,11 @@ public class PrincepsLib extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        setPluginInstance(this);
+        System.out.println("test");
 
-        DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
+      //  setPluginInstance(this);
+
+        //DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
     }
 
     public TextComponent getRandomText() {

@@ -22,6 +22,7 @@ public class TimeUtil {
 
     public static LocalDateTime stringToTime(String s) {
         if (s == null) return null;
+        if (s.equals("null")) return null;
         if (s.isEmpty()) return null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(s, formatter);

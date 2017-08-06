@@ -1,9 +1,0 @@
-name: PrincepsLib
-main: biz.princeps.lib.PrincepsLib
-version: 1.0
-author: SpatiumPrinceps
-
-commands:
-   test:
-      description: Starts a game
-      usage: /test
