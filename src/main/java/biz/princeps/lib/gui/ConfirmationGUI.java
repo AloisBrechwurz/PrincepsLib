@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ConfirmationGUI extends AbstractGUI {
 
     private ClickAction onAccept, onDecline;
+    private String confirm = ChatColor.GREEN + "Confirm!";
+    private String decline = ChatColor.RED + "Decline!";
 
     public ConfirmationGUI(Player player, String msg, ClickAction onAccept, ClickAction onDecline, AbstractGUI mainMenu) {
         super(player, 9, msg, mainMenu);
@@ -22,17 +24,25 @@ public class ConfirmationGUI extends AbstractGUI {
         this.onDecline = onDecline;
     }
 
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    public void setDecline(String decline) {
+        this.decline = decline;
+    }
+
     @Override
     protected void create() {
         ItemStack item = new ItemStack(Material.WOOL, 1, (byte) 5);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.GREEN + "Confirm!");
+        meta.setDisplayName(confirm);
         item.setItemMeta(meta);
         this.setIcon(0, new Icon(item).addClickAction(onAccept));
 
         ItemStack item2 = new ItemStack(Material.WOOL, 1, (byte) 14);
         ItemMeta meta2 = item2.getItemMeta();
-        meta2.setDisplayName(ChatColor.RED + "Decline!");
+        meta2.setDisplayName(decline);
         item2.setItemMeta(meta2);
         this.setIcon(8, new Icon(item2).addClickAction(onDecline));
     }
