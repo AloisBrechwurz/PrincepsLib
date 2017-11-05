@@ -30,7 +30,7 @@ public class MultiPagedMessage {
      * obj2
      * obj3
      * ... perSite
-     * <<Previous>   <Next>
+     * <Previous>   <Next>
      */
     public MultiPagedMessage(String command, String header, int perSite, List<String> elements, String previous, String next, int pointer) {
         this.command = command;
@@ -43,6 +43,7 @@ public class MultiPagedMessage {
     }
 
     public BaseComponent[] create() {
+        updateTitle();
         ComponentBuilder builder = new ComponentBuilder(format(header));
         builder.append("\n");
 
@@ -76,6 +77,14 @@ public class MultiPagedMessage {
         return ChatColor.translateAlternateColorCodes('&', header);
     }
 
+
+    /**
+     * Updates the title accordingly to the site number
+     */
+    private void updateTitle() {
+        this.header = this.header.replace("%site%", "" + (pointer + 1))
+                .replace("%maxsite%", (int) Math.ceil((double) elements.size() / (double) perSite) + "");
+    }
 
     public static class Builder {
 
