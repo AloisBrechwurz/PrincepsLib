@@ -137,8 +137,8 @@ public abstract class AbstractGUI implements InventoryHolder {
     }
 
     public void refresh() {
-        player.closeInventory();
-        player.openInventory(getInventory());
+        this.inventory.clear();
+        create();
     }
 
     public Inventory display() {
