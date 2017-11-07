@@ -1,15 +1,21 @@
 package biz.princeps.lib;
 
 import biz.princeps.lib.crossversion.CrossVersion;
+import biz.princeps.lib.item.ItemManager;
 import biz.princeps.lib.storage.DatabaseAPI;
 import biz.princeps.lib.storage.DatabaseType;
+import biz.princeps.lib.test.TestItem;
 import biz.princeps.lib.test.TestRequests;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,15 +28,23 @@ public class PrincepsLib extends JavaPlugin {
 
     private static JavaPlugin instance;
     private static CrossVersion crossVersion;
+    private static ItemManager itemManager;
 
     @Override
     public void onEnable() {
-
-        System.out.println("test");
-
-      //  setPluginInstance(this);
+        //  setPluginInstance(this);
 
         //DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
+
+        TestItem item = new TestItem();
+
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().iterator().next().getInventory().addItem(item.getBukkitStack());
+            }
+        }.runTaskLater(this, 100L);
     }
 
     public TextComponent getRandomText() {
@@ -60,6 +74,7 @@ public class PrincepsLib extends JavaPlugin {
      */
     public static void setPluginInstance(JavaPlugin instance) {
         PrincepsLib.crossVersion = new CrossVersion();
+        PrincepsLib.itemManager = new ItemManager();
         PrincepsLib.instance = instance;
     }
 
@@ -103,7 +118,12 @@ public class PrincepsLib extends JavaPlugin {
         return config;
     }
 
+
     public static CrossVersion crossVersion() {
         return crossVersion;
+    }
+
+    public static ItemManager getItemManager() {
+        return itemManager;
     }
 }

@@ -22,10 +22,8 @@ public class ItemActionListener implements Listener {
 
         if (item != null) {
             if (AbstractItem.isCustomItem(item)) {
-                // TODO need some kind of storage for all created AbstractItems
-
-
-
+                AbstractItem abstractItem = new ItemManager().getAbstractItem(item);
+                abstractItem.onClick(event.getAction());
             }
         }
     }

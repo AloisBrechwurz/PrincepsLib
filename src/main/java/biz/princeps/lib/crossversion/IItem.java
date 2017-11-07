@@ -12,7 +12,7 @@ public interface IItem {
 
     ItemStack addNBTTag(ItemStack stack, String key, Object value);
 
-    ItemStack getNBTTag(ItemStack stack, String key);
+    Object getValueFromNBT(ItemStack stack, String key);
 
     boolean hasNBTTag(ItemStack stack, String customItem);
 }

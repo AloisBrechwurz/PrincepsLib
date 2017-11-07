@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
  * <p>
  * Date: 11/7/17 11:19 AM
  */
-public class Item implements IItem{
+public class Item implements IItem {
 
     @Override
     public ItemStack addNBTTag(ItemStack stack, String key, Object value) {
@@ -24,9 +24,16 @@ public class Item implements IItem{
     }
 
     @Override
+    public Object getValueFromNBT(ItemStack stack, String key) {
+        net.minecraft.server.v1_10_R1.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
+        NBTTagCompound tag = nmsstack.getTag();
+        return tag.get(key);
+    }
+
+    @Override
     public boolean hasNBTTag(ItemStack stack, String customItem) {
         net.minecraft.server.v1_10_R1.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
         NBTTagCompound tag = nmsstack.getTag();
-        return tag.get(customItem) != null;
+        return tag.hasKey(customItem);
     }
 }

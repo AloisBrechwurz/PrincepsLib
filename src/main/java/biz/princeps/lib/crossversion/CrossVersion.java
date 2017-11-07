@@ -69,8 +69,8 @@ public class CrossVersion {
         return item.addNBTTag(stack, key, value);
     }
 
-    public ItemStack getNBTTag(ItemStack stack, String key) {
-        return item.getNBTTag(stack, key);
+    public Object getValueFromNBT(ItemStack stack, String key) {
+        return item.getValueFromNBT(stack, key);
     }
 
 

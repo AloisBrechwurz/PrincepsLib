@@ -24,9 +24,16 @@ public class Item implements IItem {
     }
 
     @Override
+    public Object getValueFromNBT(ItemStack stack, String key) {
+        net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
+        NBTTagCompound tag = nmsstack.getTag();
+        return tag.get(key);
+    }
+
+    @Override
     public boolean hasNBTTag(ItemStack stack, String customItem) {
         net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
         NBTTagCompound tag = nmsstack.getTag();
-        return tag.get(customItem) != null;
+        return tag.hasKey(customItem);
     }
 }

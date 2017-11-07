@@ -20,13 +20,12 @@ public class ItemManager {
         items = new HashMap<>();
     }
 
-    public void registerItem(String name, AbstractItem item) {
-        items.put(name, item);
-        item.setNameToNBT(name);
+    public void registerItem(AbstractItem item) {
+        items.put(item.name, item);
     }
 
     public AbstractItem getAbstractItem(ItemStack stack) {
-        ItemStack customItemName = PrincepsLib.crossVersion().getNBTTag(stack, "customItemName");
+        String customItemName = (String) PrincepsLib.crossVersion().getValueFromNBT(stack, "customItemName");
         return items.get(customItemName);
     }
 }
