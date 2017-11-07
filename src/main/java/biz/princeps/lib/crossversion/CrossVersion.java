@@ -3,6 +3,7 @@ package biz.princeps.lib.crossversion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by spatium on 28.07.17.
@@ -11,6 +12,7 @@ public class CrossVersion {
 
     private IActionBar bar;
     private ISpawnParticle particle;
+    private IItem item;
 
     public CrossVersion() {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
@@ -61,5 +63,18 @@ public class CrossVersion {
 
     public void spawnParticle(Location loc, CParticle cParticle, int amt) {
         particle.spawnParticle(loc, cParticle, amt);
+    }
+
+    public ItemStack addNBTTag(ItemStack stack, String key, Object value) {
+        return item.addNBTTag(stack, key, value);
+    }
+
+    public ItemStack getNBTTag(ItemStack stack, String key) {
+        return item.getNBTTag(stack, key);
+    }
+
+
+    public boolean hasNBTTag(ItemStack stack, String customItem) {
+        return item.hasNBTTag(stack, customItem);
     }
 }
