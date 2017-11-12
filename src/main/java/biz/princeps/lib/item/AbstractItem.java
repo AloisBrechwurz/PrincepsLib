@@ -2,6 +2,7 @@ package biz.princeps.lib.item;
 
 import biz.princeps.lib.PrincepsLib;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -32,10 +33,13 @@ public abstract class AbstractItem {
      */
     public AbstractItem(String name, ItemStack stack, boolean glowing) {
         this.name = name;
-        PrincepsLib.crossVersion().addNBTTag(stack, "customItemName", name);
         this.stack = PrincepsLib.crossVersion().addNBTTag(stack, "customItem", true);
+        this.stack = PrincepsLib.crossVersion().addNBTTag(stack, "customItemName", name);
         setGlowing(glowing);
-        PrincepsLib.getItemManager().registerItem(this);
+    }
+
+    public void give(Player p) {
+        p.getInventory().addItem(stack);
     }
 
     public abstract void onClick(Action action);

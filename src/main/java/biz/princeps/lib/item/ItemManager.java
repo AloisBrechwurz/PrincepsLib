@@ -1,8 +1,10 @@
 package biz.princeps.lib.item;
 
 import biz.princeps.lib.PrincepsLib;
+import biz.princeps.lib.test.TestItem;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,18 +16,24 @@ import java.util.Map;
  */
 public class ItemManager {
 
-    private Map<String, AbstractItem> items;
+    private Map<String, Class<? extends AbstractItem>> items;
 
     public ItemManager() {
         items = new HashMap<>();
     }
 
-    public void registerItem(AbstractItem item) {
-        items.put(item.name, item);
+    public void registerItem(String name, Class<TestItem> item) {
+        items.put(name, item);
     }
 
+    // TODO fix this shit
     public AbstractItem getAbstractItem(ItemStack stack) {
         String customItemName = (String) PrincepsLib.crossVersion().getValueFromNBT(stack, "customItemName");
-        return items.get(customItemName);
+        try {
+            return (AbstractItem) items.get(customItemName).getConstructors()[0].newInstance(customItemName, stack, false);
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Project: PrincepsLib
  * Author: Alex D. (SpatiumPrinceps)
- * <p>
  * Date: 11/7/17 4:03 PM
  */
 public class TestItem extends AbstractItem {
@@ -17,7 +16,7 @@ public class TestItem extends AbstractItem {
      * Used to initially create a custom item stack
      */
     public TestItem() {
-        super("testitem", new ItemStack(Material.ANVIL), false);
+        super("testitem", new ItemStack(Material.STICK), false);
     }
 
     @Override

@@ -22,31 +22,37 @@ public class CrossVersion {
             case "v1_8_R3":
                 bar = new biz.princeps.lib.crossversion.v1_8_R3.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_8_R3.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_8_R3.Item();
                 break;
 
             case "v1_9_R2":
                 bar = new biz.princeps.lib.crossversion.v1_9_R2.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_9_R2.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_9_R2.Item();
                 break;
 
             case "v1_10_R1":
                 bar = new biz.princeps.lib.crossversion.v1_10_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_10_R1.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_10_R1.Item();
                 break;
 
             case "v1_11_R1":
                 bar = new biz.princeps.lib.crossversion.v1_11_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_11_R1.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_11_R1.Item();
                 break;
 
             case "v1_12_R1":
                 bar = new biz.princeps.lib.crossversion.v1_12_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_12_R1.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_12_R1.Item();
                 break;
 
             default:
                 bar = new biz.princeps.lib.crossversion.v1_12_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_12_R1.SpawnParticle();
+                item = new biz.princeps.lib.crossversion.v1_12_R1.Item();
         }
 
     }

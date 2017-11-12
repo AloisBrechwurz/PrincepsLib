@@ -143,8 +143,9 @@ public abstract class AbstractGUI implements InventoryHolder {
 
     public Inventory display() {
         create();
-        this.player.openInventory(this.getInventory());
-        return this.getInventory();
+        this.inventory = this.getInventory();
+        this.player.openInventory(this.inventory);
+        return this.inventory;
     }
 
     protected abstract void create();

@@ -4,6 +4,7 @@ import biz.princeps.lib.crossversion.IItem;
 import net.minecraft.server.v1_9_R2.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_9_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Project: PrincepsLib
@@ -16,10 +17,13 @@ public class Item implements IItem {
     @Override
     public ItemStack addNBTTag(ItemStack stack, String key, Object value) {
         net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
-        NBTTagCompound tag = nmsstack.getTag();
+        NBTTagCompound tag = nmsstack.getTag() == null ? new NBTTagCompound() : nmsstack.getTag();
         tag.setBoolean("isCustomItem", true);
-        nmsstack.save(tag);
-        stack = CraftItemStack.asBukkitCopy(nmsstack);
+        nmsstack.setTag(tag);
+
+        ItemMeta meta = CraftItemStack.getItemMeta(nmsstack);
+        stack.setItemMeta(meta);
+
         return stack;
     }
 

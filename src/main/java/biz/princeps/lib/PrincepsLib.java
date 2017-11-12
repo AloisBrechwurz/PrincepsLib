@@ -32,9 +32,11 @@ public class PrincepsLib extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //  setPluginInstance(this);
+        setPluginInstance(this);
 
         //DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
+
+        PrincepsLib.getItemManager().registerItem("testitem", TestItem.class);
 
         TestItem item = new TestItem();
 
