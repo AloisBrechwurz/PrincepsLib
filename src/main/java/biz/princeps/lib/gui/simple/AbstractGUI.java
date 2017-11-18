@@ -80,11 +80,17 @@ public abstract class AbstractGUI implements InventoryHolder {
      * @return itself to allow builder-like object creation
      */
     public AbstractGUI setIcon(int position, Icon icon) {
+        this.icons.remove(position);
         this.icons.put(position, icon);
         if (inventory != null) {
             inventory.setItem(position, icon.itemStack);
-        }
+        } else
+            System.out.println("inv null for pos " + position + " for icon " + icon.itemStack.getType().name());
         return this;
+    }
+
+    protected void clearIcons() {
+        this.icons.clear();
     }
 
     /**

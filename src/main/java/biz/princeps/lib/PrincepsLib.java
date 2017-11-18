@@ -1,11 +1,10 @@
 package biz.princeps.lib;
 
 import biz.princeps.lib.crossversion.CrossVersion;
+import biz.princeps.lib.gui.simple.Icon;
 import biz.princeps.lib.item.ItemManager;
-import biz.princeps.lib.storage.DatabaseAPI;
-import biz.princeps.lib.storage.DatabaseType;
+import biz.princeps.lib.test.TestGUI;
 import biz.princeps.lib.test.TestItem;
-import biz.princeps.lib.test.TestRequests;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -13,12 +12,14 @@ import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -44,9 +45,21 @@ public class PrincepsLib extends JavaPlugin {
 
             @Override
             public void run() {
-                Bukkit.getOnlinePlayers().iterator().next().getInventory().addItem(item.getBukkitStack());
+                Player p = Bukkit.getOnlinePlayers().iterator().next();
+                p.getInventory().addItem(item.getBukkitStack());
+                ArrayList<Icon> list = new ArrayList<>();
+
+                for (int i = 0; i < 50; i++) {
+                    int finalI = i;
+                    list.add(new Icon(new ItemStack(Material.GRASS)).addClickAction((pl) -> System.out.println("licked: " + finalI)));
+                }
+
+                TestGUI gui = new TestGUI(p, 2, "Test", list, null);
+                gui.display();
             }
         }.runTaskLater(this, 100L);
+
+
     }
 
     public TextComponent getRandomText() {

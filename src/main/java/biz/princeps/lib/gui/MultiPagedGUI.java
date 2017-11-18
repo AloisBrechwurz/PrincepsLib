@@ -78,8 +78,9 @@ public class MultiPagedGUI extends AbstractGUI {
     public Inventory display() {
         create();
         updateTitle();
-        this.player.openInventory(this.getInventory());
-        return this.getInventory();
+        this.inventory = this.getInventory();
+        this.player.openInventory(this.inventory);
+        return this.inventory;
     }
 
 
@@ -88,9 +89,12 @@ public class MultiPagedGUI extends AbstractGUI {
      */
     @Override
     protected void create() {
+        this.clearIcons();
         for (int i = 0; i < rowsPerSite * 9; i++) {
             if (i + rowsPerSite * siteNumber * 9 < icons.size()) {
                 this.setIcon(i, icons.get(i + rowsPerSite * siteNumber * 9));
+                int erg = i + rowsPerSite * siteNumber * 9;
+                System.out.println("Created an item on spot " + i + " @ array pos " + erg);
             } else {
                 this.setIcon(i, new Icon(new ItemStack(Material.AIR)));
             }
@@ -105,7 +109,6 @@ public class MultiPagedGUI extends AbstractGUI {
                             .addClickAction((p) -> {
                                 siteNumber--;
                                 updateTitle();
-                                create();
                             }));
         } else
             this.setIcon(rowsPerSite * 9 + 3, new Icon(new ItemStack(Material.AIR)));
@@ -119,11 +122,16 @@ public class MultiPagedGUI extends AbstractGUI {
                             .addClickAction((p) -> {
                                 siteNumber++;
                                 updateTitle();
-                                create();
                             }));
         } else
             this.setIcon(rowsPerSite * 9 + 5, new Icon(new ItemStack(Material.AIR)));
 
+        if (this.mainMenu != null) {
+            this.setIcon(rowsPerSite * 9 + 4,
+                    new Icon(new ItemStack(Material.NETHER_STAR))
+                            .setName(org.bukkit.ChatColor.GOLD + mainMenu.getTitle())
+                            .addClickAction((player) -> mainMenu.display()));
+        }
 
     }
 
@@ -134,6 +142,15 @@ public class MultiPagedGUI extends AbstractGUI {
         this.setTitle(this
                 .rawTitle.replace("%site%", "" + (siteNumber + 1))
                 .replace("%maxsite%", (int) Math.ceil((double) icons.size() / (double) (rowsPerSite * 9)) + ""));
-        this.refresh();
+        if (this.inventory != null)
+            refresh();
+    }
+
+    public int getRowsPerSite() {
+        return rowsPerSite;
+    }
+
+    public int getSiteNumber() {
+        return siteNumber;
     }
 }
