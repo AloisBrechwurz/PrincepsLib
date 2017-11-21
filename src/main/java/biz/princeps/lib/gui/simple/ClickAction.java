@@ -7,5 +7,5 @@ import org.bukkit.entity.Player;
  */
 public interface ClickAction {
 
-    void execute(Player player);
+    void execute(Player player, Icon icon);
 }

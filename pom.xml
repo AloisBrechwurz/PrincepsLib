@@ -6,7 +6,7 @@
 
     <groupId>biz.princeps</groupId>
     <artifactId>PrincepsLib</artifactId>
-    <version>1.4.29</version>
+    <version>1.4.31</version>
 
     <build>
         <plugins>

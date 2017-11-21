@@ -41,4 +41,8 @@ public class Icon {
         itemStack.setItemMeta(meta);
         return this;
     }
+
+    public List<String> getLore(){
+        return itemStack.getItemMeta().getLore();
+    }
 }

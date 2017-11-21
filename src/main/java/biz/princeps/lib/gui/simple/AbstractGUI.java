@@ -4,6 +4,7 @@ import biz.princeps.lib.PrincepsLib;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -84,8 +85,7 @@ public abstract class AbstractGUI implements InventoryHolder {
         this.icons.put(position, icon);
         if (inventory != null) {
             inventory.setItem(position, icon.itemStack);
-        } else
-            System.out.println("inv null for pos " + position + " for icon " + icon.itemStack.getType().name());
+        }
         return this;
     }
 
@@ -113,6 +113,7 @@ public abstract class AbstractGUI implements InventoryHolder {
 
     /**
      * Sets the title of the GUI
+     * It is not possible to update the title once the gui is created!
      *
      * @param title the new title
      */
@@ -136,7 +137,7 @@ public abstract class AbstractGUI implements InventoryHolder {
             this.setIcon(size - 5,
                     new Icon(new ItemStack(Material.NETHER_STAR))
                             .setName(org.bukkit.ChatColor.GOLD + mainMenu.getTitle())
-                            .addClickAction((player) -> mainMenu.display()));
+                            .addClickAction((player, icon) -> mainMenu.display()));
         }
 
         return inventory;
@@ -177,7 +178,7 @@ public abstract class AbstractGUI implements InventoryHolder {
                     Icon icon = customHolder.getIcon(event.getRawSlot());
                     if (icon == null) return;
                     for (ClickAction clickAction : icon.getClickActions()) {
-                        clickAction.execute(player);
+                        clickAction.execute(player, icon);
                     }
                 }
             }

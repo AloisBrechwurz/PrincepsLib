@@ -1,6 +1,7 @@
 package biz.princeps.lib;
 
 import biz.princeps.lib.crossversion.CrossVersion;
+import biz.princeps.lib.gui.simple.ClickAction;
 import biz.princeps.lib.gui.simple.Icon;
 import biz.princeps.lib.item.ItemManager;
 import biz.princeps.lib.test.TestGUI;
@@ -20,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -49,13 +51,22 @@ public class PrincepsLib extends JavaPlugin {
                 p.getInventory().addItem(item.getBukkitStack());
                 ArrayList<Icon> list = new ArrayList<>();
 
+                TestGUI gui = new TestGUI(p, list, null);
+
                 for (int i = 0; i < 50; i++) {
                     int finalI = i;
-                    list.add(new Icon(new ItemStack(Material.GRASS)).addClickAction((pl) -> System.out.println("licked: " + finalI)));
+
+                    ClickAction clickie = (player, ic) -> {
+                        System.out.println("Clicked: " + finalI);
+                        ic.setLore(Arrays.asList("Clicked", Integer.parseInt((ic.getLore() == null ? "0" : ic.getLore().get(1))) + 1 + ""));
+                        gui.refresh();
+                    };
+
+                    Icon ic = new Icon(new ItemStack(Material.GRASS)).addClickAction(clickie);
+                    list.add(ic);
                 }
 
-                TestGUI gui = new TestGUI(p, 2, "Test", list, null);
-                gui.display();
+              //  gui.display();
             }
         }.runTaskLater(this, 100L);
 

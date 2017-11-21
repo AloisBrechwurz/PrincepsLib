@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class TestGUI extends MultiPagedGUI {
 
-    public TestGUI(Player player, int rowsPerSite, String title, List<Icon> icons, AbstractGUI main) {
-        super(player, rowsPerSite, title, icons, main);
+    public TestGUI(Player player, List<Icon> icons, AbstractGUI main) {
+        super(player, 2, "Seiten: %site%/%maxsite%", icons, main);
     }
 
 
