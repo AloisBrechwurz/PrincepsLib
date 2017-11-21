@@ -26,13 +26,15 @@ public class ItemManager {
         items.put(name, item);
     }
 
-    // TODO fix this shit
     public AbstractItem getAbstractItem(ItemStack stack) {
         String customItemName = (String) PrincepsLib.crossVersion().getValueFromNBT(stack, "customItemName");
+
         try {
-            return (AbstractItem) items.get(customItemName).getConstructors()[0].newInstance(customItemName, stack, false);
+            Class<? extends AbstractItem> aClass = items.get(customItemName);
+
+            return (AbstractItem) aClass.getConstructors()[0].newInstance();
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            System.out.println("Custom item must implement empty constructor: " + e);
         }
         return null;
     }

@@ -39,7 +39,7 @@ public class PrincepsLib extends JavaPlugin {
 
         //DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
 
-        PrincepsLib.getItemManager().registerItem("testitem", TestItem.class);
+        PrincepsLib.getItemManager().registerItem(TestItem.name, TestItem.class);
 
         TestItem item = new TestItem();
 

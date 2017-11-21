@@ -12,15 +12,17 @@ import org.bukkit.inventory.ItemStack;
  */
 public class TestItem extends AbstractItem {
 
+    public static final String name = "testitem";
+
     /**
      * Used to initially create a custom item stack
      */
     public TestItem() {
-        super("testitem", new ItemStack(Material.STICK), false);
+        super(name, new ItemStack(Material.STICK), false);
     }
 
     @Override
     public void onClick(Action action) {
-        System.out.println(action.name());
+        System.out.println(action.name() + " testitem");
     }
 }
