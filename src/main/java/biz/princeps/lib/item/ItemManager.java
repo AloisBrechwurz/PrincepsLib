@@ -20,9 +20,10 @@ public class ItemManager {
 
     public ItemManager() {
         items = new HashMap<>();
+        new ItemActionListener();
     }
 
-    public void registerItem(String name, Class<TestItem> item) {
+    public void registerItem(String name, Class<? extends AbstractItem> item) {
         items.put(name, item);
     }
 

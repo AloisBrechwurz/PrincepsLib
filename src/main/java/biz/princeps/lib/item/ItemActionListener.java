@@ -13,10 +13,11 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ItemActionListener implements Listener {
 
-    private ItemManager itemManager = PrincepsLib.getItemManager();
+    private ItemManager itemManager;
 
     public ItemActionListener() {
         PrincepsLib.getPluginInstance().getServer().getPluginManager().registerEvents(this, PrincepsLib.getPluginInstance());
+        this.itemManager = PrincepsLib.getItemManager();
     }
 
     @EventHandler
@@ -26,7 +27,7 @@ public class ItemActionListener implements Listener {
             if (AbstractItem.isCustomItem(item)) {
                 AbstractItem abstractItem = itemManager.getAbstractItem(item);
                 if (abstractItem != null)
-                    abstractItem.onClick(event.getAction());
+                    abstractItem.onClick(event.getAction(), event.getPlayer(), (event.getClickedBlock() == null ? null : event.getClickedBlock().getLocation()));
                 else
                     PrincepsLib.getPluginInstance().getLogger().warning("Invalid custom item found!!!");
             }

@@ -1,6 +1,7 @@
 package biz.princeps.lib.item;
 
 import biz.princeps.lib.PrincepsLib;
+import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -15,10 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Date: 11/7/17 10:51 AM
  */
 public abstract class AbstractItem {
-
-    static {
-        new ItemActionListener();
-    }
 
     private ItemStack stack;
     private boolean glowing;
@@ -42,7 +39,14 @@ public abstract class AbstractItem {
         p.getInventory().addItem(stack);
     }
 
-    public abstract void onClick(Action action);
+    /**
+     * Called when the player clicks with this item
+     *
+     * @param action the action, leftclickblock, rightclickblock...
+     * @param player the clicking player
+     * @param loc    the location clicked on. may be null!
+     */
+    public abstract void onClick(Action action, Player player, Location loc);
 
     public void setStackSize(int size) {
         stack.setAmount(size);

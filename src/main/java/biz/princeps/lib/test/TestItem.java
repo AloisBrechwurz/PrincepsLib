@@ -1,7 +1,9 @@
 package biz.princeps.lib.test;
 
 import biz.princeps.lib.item.AbstractItem;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,8 +23,9 @@ public class TestItem extends AbstractItem {
         super(name, new ItemStack(Material.STICK), false);
     }
 
+
     @Override
-    public void onClick(Action action) {
-        System.out.println(action.name() + " testitem");
+    public void onClick(Action action, Player player, Location loc) {
+
     }
 }

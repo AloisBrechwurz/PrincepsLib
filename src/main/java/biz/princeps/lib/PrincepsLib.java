@@ -99,9 +99,9 @@ public class PrincepsLib extends JavaPlugin {
      * @param instance
      */
     public static void setPluginInstance(JavaPlugin instance) {
+        PrincepsLib.instance = instance;
         PrincepsLib.crossVersion = new CrossVersion();
         PrincepsLib.itemManager = new ItemManager();
-        PrincepsLib.instance = instance;
     }
 
     /**
