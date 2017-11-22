@@ -20,12 +20,12 @@ public class TestItem extends AbstractItem {
      * Used to initially create a custom item stack
      */
     public TestItem() {
-        super(name, new ItemStack(Material.STICK), false);
+        super(name, new ItemStack(Material.STICK), false, false);
     }
 
 
     @Override
     public void onClick(Action action, Player player, Location loc) {
-
+        System.out.println(action);
     }
 }

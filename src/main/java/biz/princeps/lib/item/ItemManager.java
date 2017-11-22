@@ -20,7 +20,7 @@ public class ItemManager {
 
     public ItemManager() {
         items = new HashMap<>();
-        new ItemActionListener();
+        new ItemActionListener(this);
     }
 
     public void registerItem(String name, Class<? extends AbstractItem> item) {

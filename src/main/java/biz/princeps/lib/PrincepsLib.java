@@ -48,7 +48,7 @@ public class PrincepsLib extends JavaPlugin {
             @Override
             public void run() {
                 Player p = Bukkit.getOnlinePlayers().iterator().next();
-                p.getInventory().addItem(item.getBukkitStack());
+             //   p.getInventory().addItem(item.getBukkitStack());
                 ArrayList<Icon> list = new ArrayList<>();
 
                 TestGUI gui = new TestGUI(p, list, null);

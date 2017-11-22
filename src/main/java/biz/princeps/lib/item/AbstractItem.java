@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public abstract class AbstractItem {
 
     private ItemStack stack;
-    private boolean glowing;
+    private boolean glowing, breakBlocks;
     protected String name;
 
     /**
@@ -28,11 +28,12 @@ public abstract class AbstractItem {
      * @param stack   the item stack, which should be wrapped
      * @param glowing if the item should be glowing or not
      */
-    public AbstractItem(String name, ItemStack stack, boolean glowing) {
+    public AbstractItem(String name, ItemStack stack, boolean glowing, boolean breakBlocks) {
         this.name = name;
         this.stack = PrincepsLib.crossVersion().addNBTTag(stack, "customItem", true);
         this.stack = PrincepsLib.crossVersion().addNBTTag(stack, "customItemName", name);
         setGlowing(glowing);
+        this.breakBlocks = breakBlocks;
     }
 
     public void give(Player p) {
@@ -69,6 +70,10 @@ public abstract class AbstractItem {
 
     public ItemStack getBukkitStack() {
         return stack;
+    }
+
+    public boolean canBreakBlocks() {
+        return breakBlocks;
     }
 
     public static boolean isCustomItem(ItemStack stack) {

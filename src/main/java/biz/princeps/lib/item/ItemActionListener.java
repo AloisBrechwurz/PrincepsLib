@@ -3,6 +3,7 @@ package biz.princeps.lib.item;
 import biz.princeps.lib.PrincepsLib;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,9 +16,9 @@ public class ItemActionListener implements Listener {
 
     private ItemManager itemManager;
 
-    public ItemActionListener() {
+    public ItemActionListener(ItemManager manager) {
         PrincepsLib.getPluginInstance().getServer().getPluginManager().registerEvents(this, PrincepsLib.getPluginInstance());
-        this.itemManager = PrincepsLib.getItemManager();
+        this.itemManager = manager;
     }
 
     @EventHandler
@@ -32,5 +33,25 @@ public class ItemActionListener implements Listener {
                     PrincepsLib.getPluginInstance().getLogger().warning("Invalid custom item found!!!");
             }
         }
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent e) {
+        //TODO replace with new method. Dunno and to lazy to google it
+        ItemStack item = e.getPlayer().getItemInHand();
+        if (item != null) {
+            if (AbstractItem.isCustomItem(item)) {
+                AbstractItem abstractItem = itemManager.getAbstractItem(item);
+                if (abstractItem != null) {
+                    if (!abstractItem.canBreakBlocks()) {
+                        e.setCancelled(true);
+                    }
+                } else {
+                    PrincepsLib.getPluginInstance().getLogger().warning("Invalid custom item found!!!");
+                }
+            }
+        }
+
+
     }
 }
