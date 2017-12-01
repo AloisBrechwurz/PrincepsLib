@@ -1,6 +1,7 @@
 package biz.princeps.lib.item;
 
 import biz.princeps.lib.PrincepsLib;
+import biz.princeps.lib.crossversion.CrossVersion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -24,7 +25,10 @@ public class ItemActionListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+        if (!CrossVersion.getVersion().equals("v1_8_R3")) {
+            //TODO Move eqipmentslot to another class
+            if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+        }
         ItemStack item = event.getItem();
         if (item != null) {
             if (AbstractItem.isCustomItem(item)) {

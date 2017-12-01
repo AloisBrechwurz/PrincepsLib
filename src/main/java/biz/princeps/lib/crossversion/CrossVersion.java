@@ -15,7 +15,7 @@ public class CrossVersion {
     private IItem item;
 
     public CrossVersion() {
-        String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        String version = getVersion();
 
         switch (version) {
 
@@ -82,5 +82,9 @@ public class CrossVersion {
 
     public boolean hasNBTTag(ItemStack stack, String customItem) {
         return item.hasNBTTag(stack, customItem);
+    }
+
+    public static String getVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
     }
 }
