@@ -1,7 +1,10 @@
 package biz.princeps.lib.crossversion.v1_9_R2;
 
 import biz.princeps.lib.crossversion.IItem;
+import net.minecraft.server.v1_9_R2.NBTBase;
+import net.minecraft.server.v1_9_R2.NBTTagByte;
 import net.minecraft.server.v1_9_R2.NBTTagCompound;
+import net.minecraft.server.v1_9_R2.NBTTagString;
 import org.bukkit.craftbukkit.v1_9_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +21,12 @@ public class Item implements IItem {
     public ItemStack addNBTTag(ItemStack stack, String key, Object value) {
         net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
         NBTTagCompound tag = nmsstack.getTag() == null ? new NBTTagCompound() : nmsstack.getTag();
-        tag.setBoolean("isCustomItem", true);
+        if (value instanceof String)
+            tag.setString(key, (String) value);
+        else if (value instanceof Integer)
+            tag.setInt(key, (Integer) value);
+        else if (value instanceof Boolean)
+            tag.setBoolean(key, (Boolean) value);
         nmsstack.setTag(tag);
 
         ItemMeta meta = CraftItemStack.getItemMeta(nmsstack);
@@ -31,13 +39,20 @@ public class Item implements IItem {
     public Object getValueFromNBT(ItemStack stack, String key) {
         net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
         NBTTagCompound tag = nmsstack.getTag();
-        return tag.get(key);
+        assert tag != null;
+        NBTBase nbtBase = tag.get(key);
+        if (nbtBase instanceof NBTTagString) {
+            return ((NBTTagString) nbtBase).a_();
+        } else if (nbtBase instanceof NBTTagByte) {
+            return Boolean.parseBoolean(String.valueOf(((NBTTagByte) nbtBase).e()));
+        }
+        return null;
     }
 
     @Override
     public boolean hasNBTTag(ItemStack stack, String customItem) {
         net.minecraft.server.v1_9_R2.ItemStack nmsstack = CraftItemStack.asNMSCopy(stack);
         NBTTagCompound tag = nmsstack.getTag();
-        return tag.hasKey(customItem);
+        return tag != null && tag.hasKey(customItem);
     }
 }
