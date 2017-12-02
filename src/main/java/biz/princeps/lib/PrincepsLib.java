@@ -57,7 +57,7 @@ public class PrincepsLib extends JavaPlugin {
                     int finalI = i;
 
                     ClickAction clickie = (player, ic) -> {
-                        System.out.println("Clicked: " + finalI);
+                        //System.out.println("Clicked: " + finalI);
                         ic.setLore(Arrays.asList("Clicked", Integer.parseInt((ic.getLore() == null ? "0" : ic.getLore().get(1))) + 1 + ""));
                         gui.refresh();
                     };

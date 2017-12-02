@@ -3,6 +3,7 @@ package biz.princeps.lib.crossversion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -14,6 +15,9 @@ public class CrossVersion {
     private ISpawnParticle particle;
     private IItem item;
 
+    // Add stuff here which changed from 1.8 => 1.9
+    private IStuff stuff;
+
     public CrossVersion() {
         String version = getVersion();
 
@@ -23,36 +27,43 @@ public class CrossVersion {
                 bar = new biz.princeps.lib.crossversion.v1_8_R3.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_8_R3.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_8_R3.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_8_R3.Stuff();
                 break;
 
             case "v1_9_R2":
                 bar = new biz.princeps.lib.crossversion.v1_9_R2.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_9_R2.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_9_R2.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_9_R2.Stuff();
                 break;
 
             case "v1_10_R1":
                 bar = new biz.princeps.lib.crossversion.v1_10_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_10_R1.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_10_R1.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_9_R2.Stuff();
                 break;
 
             case "v1_11_R1":
                 bar = new biz.princeps.lib.crossversion.v1_11_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_11_R1.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_11_R1.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_9_R2.Stuff();
                 break;
 
             case "v1_12_R1":
                 bar = new biz.princeps.lib.crossversion.v1_12_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_12_R1.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_12_R1.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_9_R2.Stuff();
                 break;
 
             default:
                 bar = new biz.princeps.lib.crossversion.v1_12_R1.ActionBar();
                 particle = new biz.princeps.lib.crossversion.v1_12_R1.SpawnParticle();
                 item = new biz.princeps.lib.crossversion.v1_12_R1.Item();
+                stuff = new biz.princeps.lib.crossversion.v1_9_R2.Stuff();
+
         }
 
     }
@@ -86,5 +97,9 @@ public class CrossVersion {
 
     public static String getVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+    }
+
+    public boolean isOffHand(PlayerInteractEvent event) {
+        return stuff.isOffHand(event);
     }
 }
