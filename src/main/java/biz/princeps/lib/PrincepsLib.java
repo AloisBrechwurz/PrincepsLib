@@ -1,5 +1,6 @@
 package biz.princeps.lib;
 
+import biz.princeps.lib.crossversion.CParticle;
 import biz.princeps.lib.crossversion.CrossVersion;
 import biz.princeps.lib.gui.simple.ClickAction;
 import biz.princeps.lib.gui.simple.Icon;
@@ -14,6 +15,9 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,11 +31,26 @@ import java.util.Random;
 /**
  * Created by spatium on 18.06.17.
  */
-public class PrincepsLib extends JavaPlugin {
+public class PrincepsLib extends JavaPlugin implements Listener {
 
     private static JavaPlugin instance;
     private static CrossVersion crossVersion;
     private static ItemManager itemManager;
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    crossVersion.spawnParticle(p, p.getLocation().add(0, 0.1, 0), CParticle.VILLAGERHAPPY, 10);
+
+                }
+            }
+        }.runTaskTimer(this, 20, 20);
+    }
 
     @Override
     public void onEnable() {
@@ -42,13 +61,14 @@ public class PrincepsLib extends JavaPlugin {
         PrincepsLib.getItemManager().registerItem(TestItem.name, TestItem.class);
 
         TestItem item = new TestItem();
-
+        getServer().getPluginManager().registerEvents(this, this);
         new BukkitRunnable() {
 
             @Override
             public void run() {
                 Player p = Bukkit.getOnlinePlayers().iterator().next();
-             //   p.getInventory().addItem(item.getBukkitStack());
+                //   p.getInventory().addItem(item.getBukkitStack());
+
                 ArrayList<Icon> list = new ArrayList<>();
 
                 TestGUI gui = new TestGUI(p, list, null);
@@ -66,7 +86,7 @@ public class PrincepsLib extends JavaPlugin {
                     list.add(ic);
                 }
 
-              //  gui.display();
+                //  gui.display();
             }
         }.runTaskLater(this, 100L);
 

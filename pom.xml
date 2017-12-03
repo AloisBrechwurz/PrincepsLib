@@ -6,7 +6,7 @@
 
     <groupId>biz.princeps</groupId>
     <artifactId>PrincepsLib</artifactId>
-    <version>1.4.42</version>
+    <version>1.4.43</version>
 
     <build>
         <plugins>
@@ -99,6 +99,10 @@
             <id>wesjd-repo</id>
             <url>https://nexus.wesjd.net/repository/thirdparty/</url>
         </repository>
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -184,6 +188,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.3.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

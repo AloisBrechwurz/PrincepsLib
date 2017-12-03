@@ -82,6 +82,11 @@ public class CrossVersion {
         particle.spawnParticle(loc, cParticle, amt);
     }
 
+
+    public void spawnParticle(Player p, Location loc, CParticle cParticle, int amt) {
+        particle.spawnParticle(p, loc, cParticle, amt);
+    }
+
     public ItemStack addNBTTag(ItemStack stack, String key, Object value) {
         return item.addNBTTag(stack, key, value);
     }
