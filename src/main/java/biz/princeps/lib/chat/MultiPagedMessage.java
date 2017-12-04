@@ -3,7 +3,6 @@ package biz.princeps.lib.chat;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.List;
@@ -43,15 +42,16 @@ public class MultiPagedMessage {
 
     public BaseComponent[] create() {
         updateTitle();
-        ComponentBuilder builder = new ComponentBuilder("");
-        builder.append(TextComponent.fromLegacyText(format(header)));
+        CustomComponentBuilder builder = new CustomComponentBuilder("");
+
+        builder.append(format(header));
         builder.append("\n");
 
         int siteNumberToDisplay = pointer;
 
         for (int i = siteNumberToDisplay * perSite; i < (siteNumberToDisplay + 1) * perSite; i++) {
             if (i < elements.size()) {
-                builder.append(TextComponent.fromLegacyText(elements.get(i)));
+                builder.append(TextComponent.fromLegacyText(format(elements.get(i))));
                 builder.append("\n");
             }
         }
@@ -60,13 +60,13 @@ public class MultiPagedMessage {
         String cmd = command + " ";
 
         if (siteNumberToDisplay > 0) {
-            builder.append(TextComponent.fromLegacyText(format(previous)))
+            builder.append(format(previous))
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + --pointer));
         }
         pointer = siteNumberToDisplay;
 
         if (siteNumberToDisplay < Math.ceil((double) elements.size() / (double) perSite) - 1) {
-            builder.append(TextComponent.fromLegacyText(format(next)))
+            builder.append(format(next))
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + ++pointer));
         }
         return builder.create();

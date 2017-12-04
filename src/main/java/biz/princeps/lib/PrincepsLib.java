@@ -77,7 +77,7 @@ public class PrincepsLib extends JavaPlugin implements Listener {
             for (int i = 0; i < 100; i++) {
                 if (i % 2 == 0)
                     list.add(ChatColor.RED + getRandomText().getText());
-                else{
+                else {
                     list.add(ChatColor.AQUA + getRandomText().getText());
 
                 }
@@ -86,7 +86,8 @@ public class PrincepsLib extends JavaPlugin implements Listener {
                     .setNextString("NEXT ==>")
                     .setPreviousString("<== PREVIOUS ")
                     .setCommand("msgtest", strings).build();
-            commandSender.spigot().sendMessage(msg.create());
+            if (commandSender instanceof Player)
+                ((Player) commandSender).spigot().sendMessage(msg.create());
             return true;
         });
     }
