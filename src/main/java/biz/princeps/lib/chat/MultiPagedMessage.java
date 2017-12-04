@@ -1,10 +1,10 @@
 package biz.princeps.lib.chat;
 
-import biz.princeps.lib.PrincepsLib;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.List;
 
@@ -22,9 +22,8 @@ public class MultiPagedMessage {
 
     private int pointer;
 
-    // General Design idea
-
     /**
+     * General Design idea:
      * this is the header, which can be custom crafted
      * obj1
      * obj2
@@ -44,30 +43,30 @@ public class MultiPagedMessage {
 
     public BaseComponent[] create() {
         updateTitle();
-        ComponentBuilder builder = new ComponentBuilder(format(header));
+        ComponentBuilder builder = new ComponentBuilder("");
+        builder.append(TextComponent.fromLegacyText(format(header)));
         builder.append("\n");
 
         int siteNumberToDisplay = pointer;
 
         for (int i = siteNumberToDisplay * perSite; i < (siteNumberToDisplay + 1) * perSite; i++) {
             if (i < elements.size()) {
-                builder.append(elements.get(i));
+                builder.append(TextComponent.fromLegacyText(elements.get(i)));
                 builder.append("\n");
             }
         }
 
         pointer = siteNumberToDisplay;
-        // System.out.println(siteNumberToDisplay);
         String cmd = command + " ";
 
         if (siteNumberToDisplay > 0) {
-            builder.append(format(previous))
+            builder.append(TextComponent.fromLegacyText(format(previous)))
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + --pointer));
         }
         pointer = siteNumberToDisplay;
 
         if (siteNumberToDisplay < Math.ceil((double) elements.size() / (double) perSite) - 1) {
-            builder.append(format(next))
+            builder.append(TextComponent.fromLegacyText(format(next)))
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd + ++pointer));
         }
         return builder.create();

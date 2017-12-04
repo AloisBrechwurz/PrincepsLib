@@ -1,16 +1,13 @@
 package biz.princeps.lib;
 
+import biz.princeps.lib.chat.MultiPagedMessage;
 import biz.princeps.lib.crossversion.CParticle;
 import biz.princeps.lib.crossversion.CrossVersion;
-import biz.princeps.lib.gui.simple.ClickAction;
-import biz.princeps.lib.gui.simple.Icon;
 import biz.princeps.lib.item.ItemManager;
-import biz.princeps.lib.test.TestGUI;
-import biz.princeps.lib.test.TestItem;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,14 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -56,47 +52,49 @@ public class PrincepsLib extends JavaPlugin implements Listener {
     public void onEnable() {
         setPluginInstance(this);
 
-        //DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
+        // DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
 
-        PrincepsLib.getItemManager().registerItem(TestItem.name, TestItem.class);
+        // PrincepsLib.getItemManager().registerItem(TestItem.name, TestItem.class);
 
-        TestItem item = new TestItem();
+        // TestItem item = new TestItem();
+
         getServer().getPluginManager().registerEvents(this, this);
+
         new BukkitRunnable() {
 
             @Override
             public void run() {
                 Player p = Bukkit.getOnlinePlayers().iterator().next();
-                //   p.getInventory().addItem(item.getBukkitStack());
 
-                ArrayList<Icon> list = new ArrayList<>();
 
-                TestGUI gui = new TestGUI(p, list, null);
-
-                for (int i = 0; i < 50; i++) {
-                    int finalI = i;
-
-                    ClickAction clickie = (player, ic) -> {
-                        //System.out.println("Clicked: " + finalI);
-                        ic.setLore(Arrays.asList("Clicked", Integer.parseInt((ic.getLore() == null ? "0" : ic.getLore().get(1))) + 1 + ""));
-                        gui.refresh();
-                    };
-
-                    Icon ic = new Icon(new ItemStack(Material.GRASS)).addClickAction(clickie);
-                    list.add(ic);
-                }
-
-                //  gui.display();
             }
         }.runTaskLater(this, 100L);
 
 
+        getCommand("msgtest").setExecutor((commandSender, command, s, strings) -> {
+            List<String> list = new ArrayList<>();
+
+            for (int i = 0; i < 100; i++) {
+                if (i % 2 == 0)
+                    list.add(ChatColor.RED + getRandomText().getText());
+                else{
+                    list.add(ChatColor.AQUA + getRandomText().getText());
+
+                }
+            }
+            MultiPagedMessage msg = new MultiPagedMessage.Builder(5, list).setHeaderString("header")
+                    .setNextString("NEXT ==>")
+                    .setPreviousString("<== PREVIOUS ")
+                    .setCommand("msgtest", strings).build();
+            commandSender.spigot().sendMessage(msg.create());
+            return true;
+        });
     }
 
     public TextComponent getRandomText() {
-        char[] text = new char[10];
+        char[] text = new char[70];
         String characters = "EKRJEDaool,3idjapsjdxcmpaejrip";
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < text.length; i++) {
             text[i] = characters.charAt(new Random().nextInt(characters.length()));
         }
         TextComponent cp = new TextComponent(new String(text));
