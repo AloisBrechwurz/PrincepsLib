@@ -1,8 +1,9 @@
 package biz.princeps.lib.item;
 
 import biz.princeps.lib.PrincepsLib;
-import biz.princeps.lib.test.TestItem;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -38,5 +39,21 @@ public class ItemManager {
             System.out.println("Custom item must implement empty constructor: " + e);
         }
         return null;
+    }
+
+    public static ItemStack stack(String string) {
+        String[] split = string.split(":");
+        byte b = -1;
+        if (split.length == 2) {
+            b = Byte.parseByte(split[1]);
+        }
+        try {
+            Material material = Material.valueOf(split[0].toUpperCase());
+            ItemStack stack = new ItemStack(material);
+            stack.setTypeId(b);
+            return stack;
+        }catch(NumberFormatException ex){
+            return null;
+        }
     }
 }

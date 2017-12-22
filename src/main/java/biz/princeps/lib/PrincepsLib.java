@@ -7,7 +7,6 @@ import biz.princeps.lib.item.ItemManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,7 +34,9 @@ public class PrincepsLib extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+
         Player p = e.getPlayer();
+
         new BukkitRunnable() {
 
             @Override
@@ -51,25 +52,6 @@ public class PrincepsLib extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         setPluginInstance(this);
-
-        // DatabaseAPI api = new DatabaseAPI(DatabaseType.SQLite, new TestRequests(), "biz.princeps.lib.test");
-
-        // PrincepsLib.getItemManager().registerItem(TestItem.name, TestItem.class);
-
-        // TestItem item = new TestItem();
-
-        getServer().getPluginManager().registerEvents(this, this);
-
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                Player p = Bukkit.getOnlinePlayers().iterator().next();
-
-
-            }
-        }.runTaskLater(this, 100L);
-
 
         getCommand("msgtest").setExecutor((commandSender, command, s, strings) -> {
             List<String> list = new ArrayList<>();
